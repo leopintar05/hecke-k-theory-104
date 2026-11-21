@@ -1,12 +1,14 @@
 # Hecke calculations for the conditional vanishing of integer K-groups through degree 104
 
-Leo Pintar, École Polytechnique · Version 1.0 · 21 November 2026
+Leo Pintar, École Polytechnique · Version 1.1 · 21 November 2026
 
 In degree 104, the two rank-324 first-field Hecke tests and the classical calculations leave four possible primes. The rank-2,925 second-field evaluation matrix has nonzero determinant modulo each of them. Together with the earlier certificates this gives $K_{4k}(\mathbb Z)=0$ for $1\le k\le26$ under three arithmetic assumptions. [Two-page preprint](paper/hecke-through-104.pdf) · [LaTeX source](paper/main.tex)
 
 The assumptions concern the strict Selmer group detected by Alpöge's bound, whether the computed Hecke spaces cover every admitted representation, and whether one residual representation at a fixed coefficient prime supplies all the traces compared together within each field. Page 2 states the assumptions and identifies the point where individual trace congruences must hold simultaneously.
 
 ## Reproducing the degree-104 result
+
+Version 1.1 gives a direct test of the self-dual case over the first field. The two 16-by-16 weight-53 trace matrices at 2 and 7 have determinant gcd $3^{76}5^{12}11^2 19^2(p_1p_2p_3)^2$, where the three large primes are listed in the paper. Run `python3 check_adjoint104.py` to reproduce this identity using the Python standard library. [Standalone verifier](check_adjoint104.py)
 
 With Python 3.12 and a C compiler installed, run the following commands from the root of the repository or from the unpacked computational supplement.
 
@@ -17,7 +19,7 @@ python -m pip install -r requirements.txt
 python -u reproduce.py
 ```
 
-The final result line is `PASS degree 104: rank 2925, four prime fields, gcd 1.` The verification run started from the distributed ZIP and a fresh Python environment on Apple Silicon. Both rank-324 matrices matched entry for entry. The four complete prime-field determinants reproduced the reference JSON byte for byte. Direct evaluation of three rows agreed in all 8,775 entries. [Instructions](REPRODUCE.md) · [Run transcript](verification/degree104-replay.log) · [Recomputed residues](verification/degree104-result.json)
+The final result line is `PASS degree 104: rank 2925, four prime fields, gcd 1.` The v1.1 run started from a clean unpacking of the distributed ZIP on Apple Silicon with the pinned Python packages. Both rank-324 matrices matched entry for entry. The four complete prime-field determinants reproduced the reference JSON byte for byte. Direct evaluation of three rows agreed in all 8,775 entries. [Instructions](REPRODUCE.md) · [Run transcript](verification/degree104-replay.log) · [Recomputed residues](verification/degree104-result.json)
 
 The earlier archive contains the first-field restrictions, second-field tests, mathematical reports and reconstruction instructions through degree 100. Its nested through-72 archive includes the earlier stages. For this release the stored first-field support ratios and the degree-76 through degree-100 block products were rechecked. The full matrix regeneration in this release run was for degree 104. [Through-100 certificate archive](certificates/K-theory-through-100-certificates.zip) · [Earlier record checks](verification/through100-records.log)
 

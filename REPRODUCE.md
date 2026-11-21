@@ -1,5 +1,7 @@
 # Reproducing the Hecke calculations
 
+For the degree-104 self-dual case in the first field, run `python3 check_adjoint104.py`. The verifier uses only the Python standard library. It builds the full 16-dimensional weight-53 cusp space from Fourier expansions, computes the trace tests at 2 and 7, and checks the complete factorization of the gcd of their determinants.
+
 Run these commands from the directory containing `reproduce.py`. The degree-104 run uses Python 3.12, a C99 compiler with unsigned 128-bit integer support (Clang or GCC), and the two pinned Python packages. Allow about 2 GB of free scratch disk space.
 
 ```sh
@@ -11,7 +13,7 @@ python -u reproduce.py
 
 The last result line starts with **PASS degree 104** and reports rank **2925**, four prime fields and gcd **1**. Each run starts in a fresh temporary directory. To retain the new matrices, pass `--work-dir ./replay-output` with a new or empty directory. Use `--workers 2 --threads 1` on a smaller machine.
 
-The program rebuilds the classical tests over both fields, reconstructs both rank-324 matrices from neighbor sums, compares every entry to the distributed copy, and recomputes their integer determinants. It then generates the rank-2,925 matrix from the signed basis, computes its determinant in each of the four prime fields and checks the Chinese remainder calculation. A second implementation evaluates all 2,925 columns in each of three rows directly. The prime-field results and the packed-matrix digest are recorded in `degree104-result.json` inside the degree-104 certificate ZIP.
+The full run includes `check_adjoint104.py`. It rebuilds the other classical tests over both fields, reconstructs both rank-324 matrices from neighbor sums, compares every entry to the distributed copy, and recomputes their integer determinants. It then generates the rank-2,925 matrix from the signed basis, computes its determinant in each of the four prime fields and checks the Chinese remainder calculation. A second implementation evaluates all 2,925 columns in each of three rows directly. The prime-field results and the packed-matrix digest are recorded in `degree104-result.json` inside the degree-104 certificate ZIP.
 
 To check the **stored** earlier arithmetic records, run this additional command. It checks 25 first-field support ratios, the seven block-determinant products for degrees 76 through 100, and a prime-field cross-check in degree 100.
 

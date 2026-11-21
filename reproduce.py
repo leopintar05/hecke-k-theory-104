@@ -74,6 +74,7 @@ def replay(scratch, workers, threads):
     root = scratch / "degree104"
     with ZipFile(certificate) as bundle:
         bundle.extractall(root)
+    run(ROOT, "check_adjoint104.py")
     first_field_and_classical(root, scratch)
 
     field = root / "second-field"

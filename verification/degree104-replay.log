@@ -1,27 +1,31 @@
-Start UTC 2026-11-21T17:27:43+00:00
+Start UTC 2026-11-21T18:43:55+00:00
 Python 3.12.14, python-flint 0.9.0, NumPy 2.3.5, Darwin arm64
 PASS degree-104 source archive
+gcd = 35265737977318218012515727342489028454238798357094936006718715195802479418706350659290948182130112931862516292490612915992119709221830407540136962890625
+gcd = 3^76 * 5^12 * 11^2 * 19^2 * (p1*p2*p3)^2
+Large prime factors: 43279339111 490440141803 63421406191963401438831238997
+PASS degree-104 adjoint trace tests at 2 and 7 (dimension 16).
 PASS first-field/first_classical.py
 PASS classical/check.py
 1.2 full basis, minus basis, evaluation determinant modulo p 657 324 1449894121889114403
-7.5 processed coordinate pair 0 1
-13.3 processed coordinate pair 0 2
-17.7 processed coordinate pair 1 2
-20.9 operator certified by exact equality; two additional points verified
-23.3 determinant digits, sha256(decimal), mod p, trace 20288 a4a0b353c8d149e1cb007bbcd548b92fb909691ee4bf0fdbeb97876d1d8eef8f 1612206155867407149 -133285869143017689414552503787147095911411924080260485606451000580
+7.4 processed coordinate pair 0 1
+13.1 processed coordinate pair 0 2
+17.4 processed coordinate pair 1 2
+20.6 operator certified by exact equality; two additional points verified
+23.0 determinant digits, sha256(decimal), mod p, trace 20288 a4a0b353c8d149e1cb007bbcd548b92fb909691ee4bf0fdbeb97876d1d8eef8f 1612206155867407149 -133285869143017689414552503787147095911411924080260485606451000580
 0.00s e, rank 52 324
-0.38s evaluation determinant mod 2305843009213693951 = 1874142542326695743 attempt 0
+0.37s evaluation determinant mod 2305843009213693951 = 1874142542326695743 attempt 0
 1.03s neighbors 1
-11.82s neighbors 9
-22.97s neighbors 17
-34.07s neighbors 25
-45.12s neighbors 33
-56.29s neighbors 41
-67.41s neighbors 49
-74.85s neighbors 57
-77.83s verified exact matrix identity
-78.16s trace -5032353808546660471317587542259034124738557940288274692904796787862358721718744413441537152
-81.77s determinant, decimal digits 28574
+10.85s neighbors 9
+21.70s neighbors 17
+32.67s neighbors 25
+43.87s neighbors 33
+54.96s neighbors 41
+65.91s neighbors 49
+73.28s neighbors 57
+76.26s verified exact matrix identity
+76.60s trace -5032353808546660471317587542259034124738557940288274692904796787862358721718744413441537152
+80.18s determinant, decimal digits 28574
 PASS all entries of inert/inert-52.matrix.json.gz
 PASS all entries of split/split-matrix-52.json.gz
 The exact gcd has 894 decimal digits.
@@ -35,137 +39,137 @@ The operators commute exactly in the common signed basis.
 PASS second field starts without a saved matrix
 Four-prime degree-104 modulus verified.
 All 16 control entries match direct evaluation on 40 paths.
-rows 24 / 2925 seconds 2.7
-rows 48 / 2925 seconds 2.7
-rows 72 / 2925 seconds 2.8
-rows 96 / 2925 seconds 2.8
-rows 120 / 2925 seconds 2.8
-rows 144 / 2925 seconds 5.2
-rows 168 / 2925 seconds 5.2
-rows 192 / 2925 seconds 5.3
-rows 216 / 2925 seconds 5.3
-rows 240 / 2925 seconds 5.3
-rows 264 / 2925 seconds 7.7
-rows 288 / 2925 seconds 7.7
-rows 312 / 2925 seconds 7.7
-rows 336 / 2925 seconds 7.8
-rows 360 / 2925 seconds 7.8
-rows 384 / 2925 seconds 10.2
-rows 408 / 2925 seconds 10.2
+rows 24 / 2925 seconds 2.6
+rows 48 / 2925 seconds 2.6
+rows 72 / 2925 seconds 2.7
+rows 96 / 2925 seconds 2.7
+rows 120 / 2925 seconds 2.7
+rows 144 / 2925 seconds 5.0
+rows 168 / 2925 seconds 5.1
+rows 192 / 2925 seconds 5.1
+rows 216 / 2925 seconds 5.2
+rows 240 / 2925 seconds 5.2
+rows 264 / 2925 seconds 7.6
+rows 288 / 2925 seconds 7.6
+rows 312 / 2925 seconds 7.6
+rows 336 / 2925 seconds 7.7
+rows 360 / 2925 seconds 7.7
+rows 384 / 2925 seconds 10.0
+rows 408 / 2925 seconds 10.1
 rows 432 / 2925 seconds 10.2
 rows 456 / 2925 seconds 10.2
-rows 480 / 2925 seconds 10.3
-rows 504 / 2925 seconds 12.6
+rows 480 / 2925 seconds 10.2
+rows 504 / 2925 seconds 12.5
 rows 528 / 2925 seconds 12.6
-rows 552 / 2925 seconds 12.7
+rows 552 / 2925 seconds 12.6
 rows 576 / 2925 seconds 12.7
-rows 600 / 2925 seconds 12.8
-rows 624 / 2925 seconds 15.3
-rows 648 / 2925 seconds 15.3
-rows 672 / 2925 seconds 15.4
-rows 696 / 2925 seconds 15.4
-rows 720 / 2925 seconds 15.4
-rows 744 / 2925 seconds 17.7
-rows 768 / 2925 seconds 17.8
-rows 792 / 2925 seconds 17.8
-rows 816 / 2925 seconds 17.9
-rows 840 / 2925 seconds 18.0
-rows 864 / 2925 seconds 20.2
-rows 888 / 2925 seconds 20.3
-rows 912 / 2925 seconds 20.3
-rows 936 / 2925 seconds 20.3
-rows 960 / 2925 seconds 20.5
-rows 984 / 2925 seconds 23.3
-rows 1008 / 2925 seconds 23.3
-rows 1032 / 2925 seconds 23.3
-rows 1056 / 2925 seconds 23.3
-rows 1080 / 2925 seconds 23.6
-rows 1104 / 2925 seconds 25.9
-rows 1128 / 2925 seconds 25.9
-rows 1152 / 2925 seconds 25.9
-rows 1176 / 2925 seconds 25.9
-rows 1200 / 2925 seconds 26.1
-rows 1224 / 2925 seconds 28.4
-rows 1248 / 2925 seconds 28.4
-rows 1272 / 2925 seconds 28.5
-rows 1296 / 2925 seconds 28.5
-rows 1320 / 2925 seconds 28.6
-rows 1344 / 2925 seconds 30.9
-rows 1368 / 2925 seconds 31.0
-rows 1392 / 2925 seconds 31.0
-rows 1416 / 2925 seconds 31.0
-rows 1440 / 2925 seconds 31.1
-rows 1464 / 2925 seconds 33.5
-rows 1488 / 2925 seconds 33.5
-rows 1512 / 2925 seconds 33.6
-rows 1536 / 2925 seconds 33.6
-rows 1560 / 2925 seconds 33.8
-rows 1584 / 2925 seconds 36.1
-rows 1608 / 2925 seconds 36.1
-rows 1632 / 2925 seconds 36.2
-rows 1656 / 2925 seconds 36.2
-rows 1680 / 2925 seconds 36.4
-rows 1704 / 2925 seconds 38.7
-rows 1728 / 2925 seconds 38.8
-rows 1752 / 2925 seconds 38.8
-rows 1776 / 2925 seconds 38.8
-rows 1800 / 2925 seconds 39.0
-rows 1824 / 2925 seconds 41.5
-rows 1848 / 2925 seconds 41.5
-rows 1872 / 2925 seconds 41.5
-rows 1896 / 2925 seconds 41.5
-rows 1920 / 2925 seconds 41.7
-rows 1944 / 2925 seconds 44.0
-rows 1968 / 2925 seconds 44.1
-rows 1992 / 2925 seconds 44.1
-rows 2016 / 2925 seconds 44.2
-rows 2040 / 2925 seconds 44.3
-rows 2064 / 2925 seconds 46.7
-rows 2088 / 2925 seconds 46.7
-rows 2112 / 2925 seconds 46.8
-rows 2136 / 2925 seconds 46.9
-rows 2160 / 2925 seconds 47.0
-rows 2184 / 2925 seconds 49.4
-rows 2208 / 2925 seconds 49.4
-rows 2232 / 2925 seconds 49.4
-rows 2256 / 2925 seconds 49.6
-rows 2280 / 2925 seconds 49.7
-rows 2304 / 2925 seconds 52.0
-rows 2328 / 2925 seconds 52.1
-rows 2352 / 2925 seconds 52.1
-rows 2376 / 2925 seconds 52.3
-rows 2400 / 2925 seconds 52.4
-rows 2424 / 2925 seconds 54.7
-rows 2448 / 2925 seconds 54.7
-rows 2472 / 2925 seconds 54.7
-rows 2496 / 2925 seconds 55.0
-rows 2520 / 2925 seconds 55.1
-rows 2544 / 2925 seconds 57.4
-rows 2568 / 2925 seconds 57.5
-rows 2592 / 2925 seconds 57.5
-rows 2616 / 2925 seconds 57.6
-rows 2640 / 2925 seconds 57.7
-rows 2664 / 2925 seconds 60.1
-rows 2688 / 2925 seconds 60.1
-rows 2712 / 2925 seconds 60.2
-rows 2736 / 2925 seconds 60.3
-rows 2760 / 2925 seconds 60.4
-rows 2784 / 2925 seconds 62.8
-rows 2808 / 2925 seconds 62.8
-rows 2832 / 2925 seconds 62.9
-rows 2856 / 2925 seconds 63.0
-rows 2880 / 2925 seconds 63.1
-rows 2904 / 2925 seconds 65.0
-rows 2925 / 2925 seconds 65.0
-Packed SHA-256: 1bc9fe6031fcebd83a58eef99b49a873a8085bf00a87d807d9532288110336d3 seconds 65.4
+rows 600 / 2925 seconds 12.7
+rows 624 / 2925 seconds 14.9
+rows 648 / 2925 seconds 15.1
+rows 672 / 2925 seconds 15.1
+rows 696 / 2925 seconds 15.2
+rows 720 / 2925 seconds 15.2
+rows 744 / 2925 seconds 17.4
+rows 768 / 2925 seconds 17.6
+rows 792 / 2925 seconds 17.6
+rows 816 / 2925 seconds 17.7
+rows 840 / 2925 seconds 17.7
+rows 864 / 2925 seconds 19.9
+rows 888 / 2925 seconds 20.1
+rows 912 / 2925 seconds 20.1
+rows 936 / 2925 seconds 20.1
+rows 960 / 2925 seconds 20.1
+rows 984 / 2925 seconds 22.3
+rows 1008 / 2925 seconds 22.5
+rows 1032 / 2925 seconds 22.6
+rows 1056 / 2925 seconds 22.7
+rows 1080 / 2925 seconds 22.7
+rows 1104 / 2925 seconds 24.8
+rows 1128 / 2925 seconds 25.0
+rows 1152 / 2925 seconds 25.1
+rows 1176 / 2925 seconds 25.1
+rows 1200 / 2925 seconds 25.1
+rows 1224 / 2925 seconds 27.3
+rows 1248 / 2925 seconds 27.5
+rows 1272 / 2925 seconds 27.6
+rows 1296 / 2925 seconds 27.6
+rows 1320 / 2925 seconds 27.7
+rows 1344 / 2925 seconds 29.8
+rows 1368 / 2925 seconds 30.0
+rows 1392 / 2925 seconds 30.0
+rows 1416 / 2925 seconds 30.1
+rows 1440 / 2925 seconds 30.2
+rows 1464 / 2925 seconds 32.3
+rows 1488 / 2925 seconds 32.4
+rows 1512 / 2925 seconds 32.5
+rows 1536 / 2925 seconds 32.6
+rows 1560 / 2925 seconds 32.7
+rows 1584 / 2925 seconds 34.8
+rows 1608 / 2925 seconds 34.9
+rows 1632 / 2925 seconds 35.0
+rows 1656 / 2925 seconds 35.1
+rows 1680 / 2925 seconds 35.2
+rows 1704 / 2925 seconds 37.4
+rows 1728 / 2925 seconds 37.5
+rows 1752 / 2925 seconds 37.6
+rows 1776 / 2925 seconds 37.7
+rows 1800 / 2925 seconds 37.8
+rows 1824 / 2925 seconds 39.9
+rows 1848 / 2925 seconds 40.1
+rows 1872 / 2925 seconds 40.2
+rows 1896 / 2925 seconds 40.2
+rows 1920 / 2925 seconds 40.3
+rows 1944 / 2925 seconds 42.5
+rows 1968 / 2925 seconds 42.7
+rows 1992 / 2925 seconds 42.8
+rows 2016 / 2925 seconds 42.8
+rows 2040 / 2925 seconds 42.9
+rows 2064 / 2925 seconds 45.2
+rows 2088 / 2925 seconds 45.4
+rows 2112 / 2925 seconds 45.5
+rows 2136 / 2925 seconds 45.6
+rows 2160 / 2925 seconds 45.7
+rows 2184 / 2925 seconds 48.0
+rows 2208 / 2925 seconds 48.2
+rows 2232 / 2925 seconds 48.3
+rows 2256 / 2925 seconds 48.4
+rows 2280 / 2925 seconds 48.5
+rows 2304 / 2925 seconds 50.7
+rows 2328 / 2925 seconds 50.8
+rows 2352 / 2925 seconds 50.9
+rows 2376 / 2925 seconds 51.0
+rows 2400 / 2925 seconds 51.1
+rows 2424 / 2925 seconds 53.3
+rows 2448 / 2925 seconds 53.5
+rows 2472 / 2925 seconds 53.6
+rows 2496 / 2925 seconds 53.7
+rows 2520 / 2925 seconds 53.7
+rows 2544 / 2925 seconds 56.0
+rows 2568 / 2925 seconds 56.1
+rows 2592 / 2925 seconds 56.2
+rows 2616 / 2925 seconds 56.3
+rows 2640 / 2925 seconds 56.4
+rows 2664 / 2925 seconds 58.6
+rows 2688 / 2925 seconds 58.8
+rows 2712 / 2925 seconds 58.8
+rows 2736 / 2925 seconds 59.0
+rows 2760 / 2925 seconds 59.0
+rows 2784 / 2925 seconds 61.4
+rows 2808 / 2925 seconds 61.6
+rows 2832 / 2925 seconds 61.7
+rows 2856 / 2925 seconds 61.9
+rows 2880 / 2925 seconds 61.9
+rows 2904 / 2925 seconds 63.6
+rows 2925 / 2925 seconds 63.6
+Packed SHA-256: 1bc9fe6031fcebd83a58eef99b49a873a8085bf00a87d807d9532288110336d3 seconds 64.0
 Loaded 36 bit matrix
 Prime 43279339111 determinant 32189186543 elapsed 7.1
 Loaded 39 bit matrix
-Prime 490440141803 determinant 445745447561 elapsed 16.0
+Prime 490440141803 determinant 445745447561 elapsed 13.8
 Loaded 96 bit matrix
-Prime 63421406191963401438831238997 determinant 22450212846525469764552672927 elapsed 39.3
+Prime 63421406191963401438831238997 determinant 22450212846525469764552672927 elapsed 31.7
 Loaded 432 bit matrix
-Prime 9627145162444529259385469643803339283582057016858454177128623918856377610117459003906333697523672786295588386036612994769077939963 determinant 3852277615420153516322648794026152355051779200992105216587265891154157287653877960615145587434547466097567956069671093168965749031 elapsed 90.5
+Prime 9627145162444529259385469643803339283582057016858454177128623918856377610117459003906333697523672786295588386036612994769077939963 determinant 3852277615420153516322648794026152355051779200992105216587265891154157287653877960615145587434547466097567956069671093168965749031 elapsed 79.0
 CRT determinant 12190443081365709135954583290076866894846492156380399983614451780818437744555601379827607445143172816870371511027989183318284481694126042672866293936547120412599819140289701067434907 gcd 1 SHA-256 1bc9fe6031fcebd83a58eef99b49a873a8085bf00a87d807d9532288110336d3
 PASS four complete determinants and CRT record (byte for byte)
 First-field support, classical exclusions and the reconstructed CRT residue agree.
@@ -175,4 +179,4 @@ Direct row 1 63d25af4dc4c8cf7ad5e00a85269e47b71f2894edaa65e3ce9d6f7739a43ad28
 Direct row 1462 9d5a6b6480b6be842e521cf86cc3de39af43ca2f20a288508f612c15fe8f0e8d
 Direct row 2924 46abb443d5df837eea3d902684de3362ba9fa802b49a7cec9603244522721e97
 PASS degree 104: rank 2925, four prime fields, gcd 1.
-End UTC 2026-11-21T17:33:09+00:00 (326.4 seconds)
+End UTC 2026-11-21T18:49:09+00:00 (314.0 seconds)
