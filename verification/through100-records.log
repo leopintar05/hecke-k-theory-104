@@ -1,0 +1,13 @@
+Original archive SHA-256 c1a718a1d6d5b0e268c91a28fcfebfc2cc462cb7cd058cde6db470a24243ccc2
+Verified 60 manifest entries.
+Verified all 25 first-field support ratios against the stored G values.
+degree  76   rank 1140   modulus 368 bits   block product ( 9 blocks)   gcd 1
+degree  80   rank 1330   modulus 419 bits   block product (11 blocks)   gcd 1
+degree  84   rank 1540   modulus 426 bits   block product (13 blocks)   gcd 1
+degree  88   rank 1771   modulus 475 bits   block product (14 blocks)   gcd 1
+degree  92   rank 2024   modulus 489 bits   block product (16 blocks)   gcd 1
+degree  96   rank 2300   modulus 515 bits   block product (18 blocks)   gcd 1
+degree 100   rank 2600   modulus 527 bits   block product (21 blocks)   gcd 1
+Degree 100: M = 355376852601782057289390475739557526075305234930778525376094078576189728698876889350928027486868649401426749194442880646368448333999904774372957952848235396579
+Degree 100: determinant modulo M = 223887100578914590423783826287155716073765864942759129577538152590993131472865212320109653480817093102288460310790867741989736015500609025430462265817978892301
+Degree 100: verified prime 109534107737962267421, residue 14999523935004074291 matches the saved direct determinant.

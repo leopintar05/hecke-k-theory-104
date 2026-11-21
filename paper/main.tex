@@ -1,0 +1,123 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype,amsmath,amssymb,booktabs}
+\usepackage[margin=21mm,top=18mm,bottom=18mm]{geometry}
+\usepackage{xcolor,hyperref}
+\definecolor{link}{HTML}{174E70}
+\hypersetup{colorlinks=true,linkcolor=link,urlcolor=link,
+  pdftitle={Hecke calculations for the conditional vanishing of K4k(Z) through degree 104},
+  pdfauthor={Leo Pintar},pdfdisplaydoctitle=true}
+\urlstyle{same}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4.4pt}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\E}[1]{\Q(\sqrt{-#1})}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\num}{\operatorname{num}}
+\newcommand{\subhead}[1]{\par\smallskip{\large\bfseries #1}\par}
+\newcommand{\repourl}{https://github.com/leopintar05/hecke-k-theory-104/releases/tag/v1.0}
+\title{Hecke calculations for the conditional vanishing\\[2pt]of \(K_{4k}(\Z)\) through degree 104}
+\author{Leo Pintar}
+\date{21 November 2026}
+\makeatletter
+\renewcommand{\maketitle}{%
+\begin{center}
+{\LARGE\bfseries\@title\par}
+\vspace{5pt}
+{\large\@author}\quad École Polytechnique\\[2pt]
+\@date
+\end{center}}
+\makeatother
+\renewenvironment{abstract}{\par\noindent\textbf{Abstract.}\enspace\ignorespaces}{\par}
+\begin{document}
+\maketitle
+\begin{abstract}
+In degree 104, two rank-324 Hecke operators over \(\E{3}\), together with classical tests, leave four candidate primes. An integer evaluation matrix of rank 2,925 constructed using \(\E{7}\) has determinant coprime to their product. Together with the certificates for earlier degrees, these computations imply \(K_{4k}(\Z)=0\) for \(1\le k\le26\), assuming the strict Selmer comparison, coverage of the admissible representations, and a simultaneous residual trace condition. The supplement contains the matrices or their generators, exact residues, and replay code.
+\end{abstract}
+
+\subhead{1. The degree-104 certificate}
+Put \(e=52\), \(E_d=\E{d}\) for \(d=3,7\), and
+\(b_j=|\num(B_{j,\eta}/j)|\), where \(\eta\) is the quadratic character of conductor 3 and the numerator is taken in lowest terms. Define \(p_1,p_2,p_3,p_4\) by
+\[
+\begin{gathered}
+ p_1=43\,279\,339\,111,\qquad p_2=490\,440\,141\,803,\\
+ p_3=63\,421\,406\,191\,963\,401\,438\,831\,238\,997,\qquad p_4=b_{105}/2162.
+\end{gathered}
+\]
+Primality tests and exact arithmetic give \(b_{53}=2p_1p_2p_3\) and \(b_{105}=2\cdot23\cdot47\,p_4\). Write \(M=p_1p_2p_3p_4\).
+
+\textit{First field.} On the rank-324 negative subspace for \(E_3\), let \(X\) be the shifted inert-2 operator and \(Z\) the sum of the two shifted split-7 operators. In the integral normalization of the supplement the shift added at 2 is \(3\cdot4^{51}-(4^{104}+4^{52}+1)\). The shift in each direction at 7 is \(-(7^{104}+7^{52}+1)\). Reconstruction from the neighbor sums gives
+\[
+ \gcd(\det X,\det Z)=3^{1578}5^{33}11^{31}19^{18}23^6\cdot29\cdot79\,p_1p_2p_3 .
+\]
+The two matrices have a common kernel line modulo each of \(p_1,p_2,p_3\). With the comparisons in Section 2, the classical branch requires \(\ell\mid b_{105}\) and the self-dual cuspidal branch requires \(\ell\mid b_{53}\). Thus every possible prime \(\ell\ge2^{31}\) appears in \(M\).
+
+\textit{Second field.} At the two places above 2 in \(E_7\), the scaled target eigenvalue in each direction is \(u=2^{104}+2^{52}+1\). The weight-53 and weight-105 level-seven classical tests exclude the self-dual and classical branches at all four primes. For the remaining system, conjugation \(J\) exchanges distinct eigensystems, so \(v-Jv\ne0\) for a corresponding eigenvector \(v\). This difference is an eigenvector for the sum of the directed operators. Under the simultaneous trace condition its eigenvalue reduces to \(t=2u\).
+
+The two lattice classes give directed operators with blocks \(\left(\begin{smallmatrix}A&B\\D&0\end{smallmatrix}\right)\) and \(\left(\begin{smallmatrix}A'&B'\\D'&0\end{smallmatrix}\right)\). As \(\gcd(t,M)=1\), elimination of the second class gives the operator on the standard negative subspace
+\[
+ L=t^2I-t(A+A')-(B+B')(D+D').
+\]
+Its dimension is \(\binom{27}{3}=2925\). Let \(F_j=P_j-JP_j\) be the signed orbit basis of bidegree \((51,51)\) modulo \(x\cdot y\). At the integral incidence pairs in the supplement (seed 128711) evaluate \(V_{ij}=F_j(x_i,y_i)\) and \(W_{ij}=(LF_j)(x_i,y_i)\). Then \(W=V[L]\) over \(\Q\). The scaled correspondences preserve a lattice at each \(p_i\), so the proposed eigenvalue forces positive \(p_i\)-adic valuation of \(\det L\) and hence \(p_i\mid\det W\).
+
+The table gives the least nonnegative residues \(r_i=\det W\bmod p_i\). The three lines for \(r_4\) form one decimal integer when read consecutively.
+\begin{center}
+\begin{tabular}{@{}ccl@{}}\toprule
+\(i\)& Bit length of \(p_i\) & \(r_i\) in decimal\\\midrule
+1 & 36 & \texttt{32189186543}\\
+2 & 39 & \texttt{445745447561}\\
+3 & 96 & \texttt{22450212846525469764552672927}\\
+4 & 432 & \texttt{385227761542015351632264879402615235505177920}\\
+  &     & \texttt{099210521658726589115415728765387796061514558}\\
+  &     & \texttt{7434547466097567956069671093168965749031}\\\bottomrule
+\end{tabular}
+\end{center}
+Thus \(\gcd(\det W,M)=1\). The computation generates one matrix modulo the 602-bit product \(M\), reduces it into each prime field, and computes the four determinants there. Direct evaluation of all 40 oriented contributions gives a separate check on three complete rows.
+
+\newpage
+\subhead{2. Arithmetic hypotheses and the range through degree 104}
+Fix \(e=2k\), \(1\le k\le26\), and a prime \(\ell\ge2^{31}\). Write \(\omega\) for the residual cyclotomic character and \(S_e\) for the subgroup of \(H^1(\Q,(\Q_\ell/\Z_\ell)(-e))\) consisting of classes unramified everywhere and trivial at 2 and \(\ell\). The deduction uses the following three inputs in the fields and at the primes tested.
+
+\textit{Strict Selmer comparison.} A nonzero \(K_{2e}(\Z)/\ell\) gives a nonzero class in \(S_e\). Assume that the length in Alpöge's \texttt{OneCharU\_s}, for \(N=2\), trivial character and coefficients \(\Z_\ell\), measures this strict group. The required implication, at a fixed coefficient embedding, is
+\[
+ S_e\ne0\ \Longrightarrow\
+ \forall \sigma\in G_{E_d}\ \exists\,\rho_\sigma\ \text{admissible}:\quad
+ \tr\bar\rho_\sigma(\sigma)=(1+\omega^e+\omega^{-e})(\sigma).
+\]
+If all differences at one \(\sigma\) were units, the valuation sum in the bound would be zero. The source defines the bound in \href{https://github.com/CocoSgt/riemann-hypothesis-lean/blob/7cbf7a0c32fca1badf05931879a37c3f8a2b03b4/src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/NumberU3US.lean#L46-L59}{\texttt{NumberU3US.lean}} and constructs it inside \href{https://github.com/CocoSgt/riemann-hypothesis-lean/blob/7cbf7a0c32fca1badf05931879a37c3f8a2b03b4/src/Development/AutomorphicArithmetic/AutomorphicVarieties/SmallClassNumbers/CorGKOf.lean#L10-L25}{\texttt{corGK\_of}}.
+
+\textit{Coverage.} Assume the systems admitted by \texttt{Adm3U\_s} and \texttt{Adm2A} occur with the tested weights, levels, twists and Frobenius normalizations. This includes the transfer to the compact unitary space of weight \((e-1,0,1-e)\), the self-dual reduction and the classical spaces. For the two-class model see \href{https://arxiv.org/abs/0801.3176}{Loeffler, \emph{Explicit calculations of automorphic forms for definite unitary groups}}.
+
+\textit{Simultaneous residual traces.} For each field separately, assume that \(S_e\ne0\) supplies one admitted system at one coefficient prime realizing the target traces at all places compared together. The pointwise implication above permits \(\rho_\sigma\) to vary. A proposed way to fix a single system interpolates the product of the candidate trace differences on ordinary inertia. For the proposed bound of \(s=2e^3+6(4e+3)\) systems, even \(2es=29\,378\,128\) at \(e=52\) lies below \(\ell-1\). The simultaneous assertion is retained as a hypothesis.
+
+\textbf{Conditional conclusion.}
+Under these inputs \(K_{4k}(\Z)=0\) for \(1\le k\le26\).
+For odd \(\ell\), the cyclotomic comparison detects the quotient by \(\ell\) in the even \(\omega^{-e}\)-component of the cyclotomic class group. Vandiver's conjecture has been checked throughout the required range \(\ell<2^{31}\). The known 2-primary calculation treats \(\ell=2\). See \href{https://arxiv.org/html/1703.00108v3#S5}{Jordan et al., Theorem 5.1}, \href{https://arxiv.org/abs/1605.02398}{Hart--Harvey--Ong, \emph{Irregular primes to two billion}}, and \href{https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.VI.pdf}{Weibel, \emph{The \(K\)-book}, VI.10}.
+
+For \(e=2,4,\ldots,50\), let \(C_q,U_q\) be the classical and compact comparison determinants over \(E_3\) at \(q=2,7\). Their archived integer values satisfy, for every prime \(\ell>337\),
+\[
+ v_\ell\!\left(\gcd(C_2U_2,C_7U_7)\right)
+ =v_\ell(b_{e+1})+3v_\ell(b_{2e+1}).
+\]
+Thus all large primes requiring a second-field test divide \(b_{e+1}b_{2e+1}\). In degrees \(52,56,60,64,68\) the first field leaves respectively \(4,2,4,4,3\) primes. The second-field determinants exclude them. In degree 72 the test works modulo a product containing all survivors. The supplement includes these cases and the earlier degrees.
+
+For degrees \(76,80,\ldots,100\), removing certified small factors from \(b_{e+1}b_{2e+1}\) gives a test modulus \(M_e\). The block elimination of Section 1 gives a signed evaluation matrix \(W_e\). The recorded results are
+\begin{center}
+\begin{tabular}{@{}lrrrrrrr@{}}\toprule
+Degree & 76 & 80 & 84 & 88 & 92 & 96 & 100\\\midrule
+Matrix dimension & 1140 & 1330 & 1540 & 1771 & 2024 & 2300 & 2600\\
+Bit length of \(M_e\) & 368 & 419 & 426 & 475 & 489 & 515 & 527\\
+\(\gcd(\det W_e,M_e)\) & 1 & 1 & 1 & 1 & 1 & 1 & 1\\\bottomrule
+\end{tabular}
+\end{center}
+Section 1 supplies the four-prime exclusion for degree 104. These groups are finite, so exclusion at every prime gives the conditional conclusion.
+
+\textbf{Prior work and reproducibility.}
+Alpöge suggested this application in \href{https://alpo.ge/remark.pdf#page=4}{Step 17, footnote 6}. A \href{https://github.com/KokunoYumeto/grothendieck-montpellier-archive/blob/daddc785c90b0447f448ab372b1014efa2afb208/research/grh_20261120/intakes/K17/INTAKE_K17_20261121_part4.md#L69-L101}{21 November report in the Grothendieck--Montpellier archive} gives a conditional calculation through degree 48. The \href{\repourl}{v1.0 supplement} includes the additional fourteen degrees \(52,56,\ldots,104\). After installing the dependencies in \texttt{requirements.txt}, run \texttt{python reproduce.py} for the degree-104 calculation. The program rebuilds both rank-324 matrices and the rank-2,925 matrix from their defining sums.
+
+{\small\textit{Contributions.} Leo Pintar initiated and led this investigation into the \(K\)-theoretic consequences of Alpöge’s Step 17. OpenAI Codex contributed to the mathematical arguments, wrote and ran the verification code, and drafted the manuscript.}
+\end{document}
