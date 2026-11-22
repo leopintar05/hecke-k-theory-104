@@ -1,30 +1,19 @@
 # Hecke calculations for the conditional vanishing of integer K-groups through degree 104
 
-Leo Pintar, École Polytechnique · Version 1.1 · 21 November 2026
+Leo Pintar, École Polytechnique · Paper version 3 · 22 November 2026
 
-In degree 104, the two rank-324 first-field Hecke tests and the classical calculations leave four possible primes. The rank-2,925 second-field evaluation matrix has nonzero determinant modulo each of them. Together with the earlier certificates this gives $K_{4k}(\mathbb Z)=0$ for $1\le k\le26$ under three arithmetic assumptions. [Two-page preprint](paper/hecke-through-104.pdf) · [LaTeX source](paper/main.tex)
+We obtain $K_{4k}(\mathbb Z)=0$ for $1\le k\le26$, conditional on the strict Selmer comparison in Alpöge’s full Step 17 construction. The construction supplies one representation at one coefficient prime for all the traces tested in a field. Three Bernoulli unit tests then restrict the possible source to the compact space covered by the matrices. [Two-page paper](paper/hecke-through-104.pdf) · [Detailed proof](paper/coverage.md) · [LaTeX source](paper/main.tex)
 
-The assumptions concern the strict Selmer group detected by Alpöge's bound, whether the computed Hecke spaces cover every admitted representation, and whether one residual representation at a fixed coefficient prime supplies all the traces compared together within each field. Page 2 states the assumptions and identifies the point where individual trace congruences must hold simultaneously.
-
-## Reproducing the degree-104 result
-
-Version 1.1 gives a direct test of the self-dual case over the first field. The two 16-by-16 weight-53 trace matrices at 2 and 7 have determinant gcd $3^{76}5^{12}11^2 19^2(p_1p_2p_3)^2$, where the three large primes are listed in the paper. Run `python3 check_adjoint104.py` to reproduce this identity using the Python standard library. [Standalone verifier](check_adjoint104.py)
-
-With Python 3.12 and a C compiler installed, run the following commands from the root of the repository or from the unpacked computational supplement.
+In degree 104 the first field excludes every large prime outside a four-prime list using two rank-324 determinants. In the second field the rank-2,925 determinant is coprime to the product of those four primes. The verifier recomputes the Bernoulli field choices for all 26 degrees and checks the stored determinant deductions. It uses the Python standard library.
 
 ```sh
-python3.12 -m venv .venv
-. .venv/bin/activate
-python -m pip install -r requirements.txt
-python -u reproduce.py
+python3 check_step17_coverage.py
 ```
 
-The final result line is `PASS degree 104: rank 2925, four prime fields, gcd 1.` The v1.1 run started from a clean unpacking of the distributed ZIP on Apple Silicon with the pinned Python packages. Both rank-324 matrices matched entry for entry. The four complete prime-field determinants reproduced the reference JSON byte for byte. Direct evaluation of three rows agreed in all 8,775 entries. [Instructions](REPRODUCE.md) · [Run transcript](verification/degree104-replay.log) · [Recomputed residues](verification/degree104-result.json)
-
-The earlier archive contains the first-field restrictions, second-field tests, mathematical reports and reconstruction instructions through degree 100. Its nested through-72 archive includes the earlier stages. For this release the stored first-field support ratios and the degree-76 through degree-100 block products were rechecked. The full matrix regeneration in this release run was for degree 104. [Through-100 certificate archive](certificates/K-theory-through-100-certificates.zip) · [Earlier record checks](verification/through100-records.log)
+For a fresh reconstruction of the matrices, see the [reproduction instructions](REPRODUCE.md). The full degree-104 replay recorded for v1.1 reproduced both rank-324 matrices and all four prime-field residues. Three rows of the rank-2,925 matrix were also evaluated directly, checking 8,775 entries. [Replay transcript](verification/degree104-replay.log) · [Degree-104 residues](verification/degree104-result.json)
 
 ## Sources and contributions
 
-Alpöge suggested the application to integer K-groups in Step 17, footnote 6. A separate public computation from the Grothendieck–Montpellier archive reports the range through degree 48. This package includes certificates for the fourteen additional multiples of four from 52 through 104. [Alpöge's announcement](https://alpo.ge/remark.pdf#page=4) · [Grothendieck–Montpellier report of 21 November](https://github.com/KokunoYumeto/grothendieck-montpellier-archive/blob/daddc785c90b0447f448ab372b1014efa2afb208/research/grh_20261120/intakes/K17/INTAKE_K17_20261121_part4.md#L69-L101)
+Levent Alpöge suggested the application to $K_{4k}(\mathbb Z)$ in Step 17, footnote 6. The Grothendieck–Montpellier Archive’s *KTOWER*, checkpoint 11, reports finite certificates through degree 80 and supplies the joint-representation and Bernoulli-unit results used here. [Alpöge’s remark](https://alpo.ge/remark.pdf#page=4) · [Montpellier’s KTOWER report](https://github.com/KokunoYumeto/grothendieck-montpellier-archive/blob/edb183a9af46cb9568e0d3caf2248e98b491e6fb/raw/research_returns/KTOWER_checkpoint_11_20261122T0001Z_unzipped/KTOWER.tex)
 
 Leo Pintar initiated and led this investigation into the $K$-theoretic consequences of Alpöge’s Step 17. OpenAI Codex contributed to the mathematical arguments, wrote and ran the verification code, and drafted the manuscript.
