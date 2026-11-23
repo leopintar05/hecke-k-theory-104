@@ -65,7 +65,7 @@ $$
 =3^{1578}5^{33}11^{31}19^{18}23^6\cdot29\cdot79\,p_1p_2p_3 .
 $$
 
-This excludes all $\ell\ge2^{31}$ outside $M$. The fourth prime only needs testing in the second field because it divides $A_3(52)$. [Degree-104 certificates](https://github.com/leopintar05/hecke-k-theory-104/releases/tag/v1.1)
+This excludes all $\ell\ge2^{31}$ outside $M$. Only the first three of the four candidates divide the displayed gcd. The fourth prime needs testing in the second field because it divides $A_3(52)$. [Degree-104 certificates](https://github.com/leopintar05/hecke-k-theory-104/releases/tag/v1.1)
 
 **Second field.** The scaled sum $2^{51}(H_w+H_{\bar w})$ on the two classes has blocks $\left(\begin{smallmatrix}A&B\\D&0\end{smallmatrix}\right)$. The zero comes from all seven neighbors of the nonstandard class returning to the standard class, in each direction. With $t=2u_2$, its eigenvalue $s$ on $v-Jv=(x,y)$ satisfies $s\equiv t\bmod\lambda$ and $\gcd(t,M)=1$. Consequently $s\ne0,\ x\ne0$, and eliminating $y$ in characteristic zero gives
 
@@ -89,3 +89,5 @@ For every even $2\le e\le50$ the same field hypotheses and local proofs apply. T
 | $76,80,\ldots,100$ | The seven signed tests have $\gcd(t_e,M_e)=\gcd(\det W_e,M_e)=1$, where $t_e=2(2^{2e}+2^e+1)$ and $M_e$ contains all large divisors of $A_3(e)$. |
 
 For odd primes below $2^{31}$, the cyclotomic comparison and the verified Vandiver range give vanishing. The known 2-primary result and finiteness finish the deduction. The sole project-specific hypothesis is the arithmetic construction of the pinned Step 17. Its strict Selmer comparison in these specializations follows from the two source identities in Section 1. The proof uses the construction behind the pointwise inequality to obtain an actual point. The numerical inequality in isolation permits the witness to vary. The arithmetic was checked against the archived determinants and residues, with a new exact calculation of the Bernoulli units. [Lower-degree certificates](https://github.com/leopintar05/hecke-k-theory-104/releases/tag/v1.1) · [Hart–Harvey–Ong](https://arxiv.org/abs/1605.02398) · [Weibel, Chapter VI, Corollary 9.8](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.VI.pdf) · [Arithmetic verifier](../check_step17_coverage.py)
+
+At degree 104, two ordinary Bernoulli residues also exclude the first two primes by reflection and Herbrand’s theorem. The seven-page manuscript gives the argument and the exact values. [Paper, Sections 4 and 6](hecke-through-104.pdf) · [Cyclotomic verifier](../check_reflection104.py)

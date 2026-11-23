@@ -1,6 +1,6 @@
 # Reproducing the Hecke calculations
 
-For version 4, run `python3 check_step17_coverage.py` from the checkout. For the standalone release, download the verifier and `hecke-certificates-v1.1.zip` into one directory and run the same command. Python 3.9 or later suffices for this check. It verifies the certificate digests, recomputes the field choice for the three Bernoulli units at each exponent, and checks the stored arithmetic through degree 104.
+For version 5, run `python3 check_step17_coverage.py` from the checkout. For the standalone release, download the verifier and `hecke-certificates-v1.1.zip` into one directory and run the same command. Python 3.9 or later suffices for this check. It verifies the certificate digests, recomputes the field choice for the three Bernoulli units at each exponent, and checks the stored arithmetic through degree 104.
 
 For the earlier, independent degree-104 self-dual case in the first field, run `python3 check_adjoint104.py`. The verifier uses only the Python standard library. It builds the full 16-dimensional weight-53 cusp space from Fourier expansions, computes the trace tests at 2 and 7, and checks the complete factorization of the gcd of their determinants.
 
@@ -13,7 +13,13 @@ python -m pip install -r requirements.txt
 python -u reproduce.py
 ```
 
-The last result line starts with **PASS degree 104** and reports rank **2925**, four prime fields and gcd **1**. Each run starts in a fresh temporary directory. To retain the new matrices, pass `--work-dir ./replay-output` with a new or empty directory. Use `--workers 2 --threads 1` on a smaller machine.
+For the two additional cyclotomic exclusions in manuscript v5, run the following in the Python environment above on 64-bit Linux or macOS. This check also runs independently of the matrix reconstruction. It tests the modular Bernoulli implementation against exact rational values at two small primes, verifies primality of the two candidates and recomputes the stated nonzero residues.
+
+```sh
+python check_reflection104.py
+```
+
+The last result line of `reproduce.py` starts with **PASS degree 104** and reports rank **2925**, four prime fields and gcd **1**. Each run starts in a fresh temporary directory. To retain the new matrices, pass `--work-dir ./replay-output` with a new or empty directory. Use `--workers 2 --threads 1` on a smaller machine.
 
 The full run includes `check_adjoint104.py`. It rebuilds the other classical tests over both fields, reconstructs both rank-324 matrices from neighbor sums, compares every entry to the distributed copy, and recomputes their integer determinants. It then generates the rank-2,925 matrix from the signed basis, computes its determinant in each of the four prime fields and checks the Chinese remainder calculation. A second implementation evaluates all 2,925 columns in each of three rows directly. The prime-field results and the packed-matrix digest are recorded in `degree104-result.json` inside the degree-104 certificate ZIP.
 

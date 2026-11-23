@@ -1,98 +1,452 @@
-\documentclass[10pt,a4paper]{article}
+\documentclass[11pt,a4paper]{article}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{lmodern,microtype,amsmath,amssymb,booktabs}
-\usepackage[left=18mm,right=18mm,top=16mm,bottom=18mm]{geometry}
+\usepackage{lmodern,microtype,amsmath,amssymb,booktabs,array}
+\usepackage[a4paper,left=26mm,right=26mm,top=23mm,bottom=24mm]{geometry}
 \usepackage{xcolor,hyperref}
-\definecolor{link}{HTML}{174E70}
-\hypersetup{colorlinks=true,linkcolor=link,urlcolor=link,citecolor=link,
- pdftitle={Vanishing of K4k(Z) through degree 104 from Alpöge’s Step 17},
+\definecolor{ink}{HTML}{174E70}
+\hypersetup{colorlinks=true,linkcolor=ink,urlcolor=ink,citecolor=ink,
+ pdftitle={Vanishing of K4k(Z) through degree 104 from Alpöge's Step 17},
  pdfauthor={Leo Pintar},pdfdisplaydoctitle=true}
 \urlstyle{same}
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{3pt}
-\setlength{\abovedisplayskip}{4pt}
-\setlength{\belowdisplayskip}{4pt}
-\newcommand{\Z}{\mathbb Z}
+\setlength{\emergencystretch}{1.5em}
+\setlength{\parindent}{1em}
+\linespread{1.055}\selectfont
 \newcommand{\Q}{\mathbb Q}
+\newcommand{\Z}{\mathbb Z}
 \newcommand{\tr}{\operatorname{tr}}
 \newcommand{\num}{\operatorname{num}}
-\newcommand{\sect}[1]{\par\smallskip{\large\bfseries #1}\par}
-\setlength{\emergencystretch}{1em}
 \newcommand{\scl}{https://github.com/CocoSgt/riemann-hypothesis-lean/blob/7cbf7a0c32fca1badf05931879a37c3f8a2b03b4/src/Development/AutomorphicArithmetic/AutomorphicVarieties/SmallClassNumbers}
 \newcommand{\kt}{https://github.com/KokunoYumeto/grothendieck-montpellier-archive/blob/edb183a9af46cb9568e0d3caf2248e98b491e6fb/raw/research_returns/KTOWER_checkpoint_11_20261122T0001Z_unzipped/KTOWER.tex}
+\newcommand{\repo}{https://github.com/leopintar05/hecke-k-theory-104}
 \begin{document}
-\fontsize{10.5pt}{12pt}\selectfont
 \begin{center}
-{\LARGE\bfseries Vanishing of \(K_{4k}(\Z)\) through degree 104\\[2pt]from Alpöge’s Step 17\par}
-\vspace{4pt}{\large Leo Pintar}\quad École Polytechnique\\[2pt]
-Version 4, 23 November 2026
+{\LARGE\bfseries Vanishing of \(K_{4k}(\Z)\) through degree 104\\[3pt]from Alpöge's Step 17\par}
+\vspace{7pt}
+{\large Leo Pintar}\\[2pt]
+École Polytechnique\\[2pt]
+Version 5, 23 November 2026
 \end{center}
-
-\textbf{Abstract.} From the arithmetic construction in Alpöge's Step~17~\cite{alpoge}, we deduce \(K_{4k}(\Z)=0\) for \(1\le k\le26\). We identify its Selmer length at the trivial character with the strict Selmer condition over \(\Q\). The Grothendieck--Montpellier archive's joint representation theorem and Bernoulli criterion~\cite{ktower} reduce the problem to explicit Hecke determinants. In degree 104 two rank-324 tests leave four primes to check in a second field, where one rank-2,925 test excludes all four.
-
-\sect{1. From a strict Selmer class to a compact Hecke eigensystem}
-\textbf{Theorem.} Assume the arithmetic construction in Alpöge's pinned Step~17~\cite{alpoge}. Then
+\begin{abstract}
+Assuming the arithmetic construction in Alpöge's Step~17, we prove that \(K_{4k}(\Z)=0\) for \(1\le k\le26\). We identify the rational strict Selmer group detected by Step~17 and use the Grothendieck--Montpellier joint representation theorem and Bernoulli criterion to reduce vanishing to integral Hecke tests. In degree 104 the Bernoulli criterion selects four large primes for the second auxiliary field. Two rank-324 determinants exclude all other large primes in the first field. A rank-2,925 determinant is a unit at all four in the second. The accompanying certificates cover every lower multiple of four.
+\end{abstract}
+\section{The theorem and the two auxiliary fields}
+Alpöge asks in Step~17, footnote~6 of his \emph{Remark}~\cite{alpoge} about the consequences of the intermediate Selmer estimate for the higher algebraic \(K\)-groups of the integers. For the degrees divisible by four the groups are finite, so the problem is to exclude each possible prime divisor of their orders. We use \(K_n\) for Quillen's algebraic \(K\)-group and \(e=2k\), so that the degree in question is \(2e=4k\).
+\par\medskip
+\noindent\textbf{Theorem.} \emph{Assume the arithmetic construction underlying \texttt{corGK\_of} in Alpöge's development at commit \texttt{7cbf7a0}, with the inputs supplied by \texttt{corGK}. Then}
 \[
-\boxed{\ K_{4k}(\Z)=0\quad(1\le k\le26).\ }
+             K_{4k}(\Z)=0 \qquad (1\leq k\leq 26).
 \]
-Put \(e=2k\), let \(\ell\ge2^{31}\) be prime, and write \(E_d=\Q(\sqrt{-d})\) for \(d=3,7\). Put \(D=(\Q_\ell/\Z_\ell)(-e)\). Let \(S_e\subset H^1(\Q,D)\) consist of classes trivial on every finite inertia group and on decomposition groups at \(2,\ell\).
+The Grothendieck--Montpellier archive proves two consequences of this construction that we use and reports finite certificates through degree~80 at the cited checkpoint~\cite{ktower}. First, a nonzero strict Selmer group supplies a single representation whose traces can be tested at several places. Second, three Bernoulli units force that representation into a specified rank-three class. Our calculation uses conjugation to pass to smaller matrices and gives the prime exclusions through degree~104.
 
-\textit{Selmer comparison.} At level~2 with trivial character and coefficients \(\Z_\ell\), \href{\scl/ClassNumberThree.lean\#L13-L30}{\texttt{vlen\_one}} identifies \texttt{Vlen} with the length for the twist \(-e\) over \(\Q\). By \href{\scl/LenEqZeroIff.lean\#L17-L33}{\texttt{len\_eq\_zero\_iff}}, this length is zero exactly when every cocycle that is a coboundary on those local subgroups is a global coboundary. Thus \(\texttt{Vlen}=0\iff S_e=0\) for either auxiliary field. If \(K_{2e}(\Z)/\ell\ne0\), the cyclotomic comparison~\cite{jkpsz} gives an unramified quotient onto \(D[\ell]\) over \(\Q(\zeta_\ell)\). The prime above \(\ell\) is principal, so splits in the quotient. Descent through the prime-to-\(\ell\) degree preserves local triviality, and \(D^{G_\Q}=0\) since \(0<e<\ell-1\), so the class stays nonzero in \(H^1(\Q,D)\). At 2 the unramified group is \(D/(2^{-e}-1)D=0\) by divisibility. This gives \(S_e\ne0\).
+To see why two fields help, fix a hypothetical large prime divisor \(\ell\). The Selmer group that would detect it lives over \(\Q\). We can therefore choose either \(\Q(\sqrt{-3})\) or \(\Q(\sqrt{-7})\) to produce the trace tests. We choose the field in which the Bernoulli criterion holds at \(\ell\). A witness in that field would make the determinant of a particular matrix divisible by \(\ell\). Computing a determinant coprime to the candidate modulus excludes every prime divisor of that modulus at once. The proof below establishes this divisibility before using the computed values.
 
-\textit{One coefficient prime.} The hypotheses \texttt{GD} hold in both fields. Their class numbers are one, \(d\) is prime to \(2\ell\), and ramification at \(d\) gives \(E_d\not\subset\Q(\zeta_\ell)\). The character is trivial, \(e\) is even, \(0<2e<\ell-1\), and the coefficient ramification index is one. In \cite[K17-S17-JOINT]{ktower}, positive length forces an actual deformation point. Otherwise the model-length bound at the identity has an empty covering set, forcing \texttt{Vlen} to vanish. The integral representation of this point reduces at one coefficient prime on all of \(G_{E_d}\) to
+\paragraph{Which primes require Step 17?}
+For \(\ell=2\), the known 2-primary computation applies in every degree
+under consideration. For odd \(\ell<2^{31}\), the published cyclotomic
+class-group computation applies. The use of Step~17 begins at \(\ell\ge2^{31}\).
+Even there, individual pairs of degrees and primes can be checked directly
+by cyclotomic methods. We give two such checks in degree~104. This
+separates the dependence of the full theorem on Step~17 from assertions
+about individual primes that one can verify independently.
+\newpage
+
+\section{From a strict Selmer class to one representation}
+\label{sec:selmer}
+Fix an even integer \(2\le e\le52\) and a prime \(\ell\ge2^{31}\).
+Write \(G_F=\operatorname{Gal}(\overline{\Q}/F)\), let
+\(\omega\) be the mod-\(\ell\) cyclotomic character, and put
+\(D=(\Q_\ell/\Z_\ell)(-e)\).
+For each finite prime \(q\) choose a decomposition group \(G_q\)
+and its inertia group \(I_q\). The rational strict Selmer group used here is
 \[
- \bar\rho_f|_{G_{E_d}}=\omega^e\oplus1\oplus\omega^{-e},
+ S_e=\ker\!\left(H^1(\Q,D)\longrightarrow
+ \prod_{q\ {\rm finite}}H^1(I_q,D)\ \times\
+ H^1(G_2,D)\ \times\ H^1(G_\ell,D)\right).
 \]
-where \(\omega\) is the residual cyclotomic character. All the trace tests in a given field therefore apply to one eigenvector.
+The auxiliary field \(E_d=\Q(\sqrt{-d})\), \(d=3,7\), will enter only
+when we apply Step~17.
 
-\textit{Choice of field.} Write \(\eta_d=\chi_{-d}\), \(b_{n,d}=|\num(B_{n,\eta_d}/n)|\) in lowest terms and \(A_d=b_{e+1,d}b_{2e+1,d}\). By \cite[FV.3]{ktower}, the units \(B_{1,\eta_d\omega^a}\) needed for \(a=e,2e\) are tested by \(B_{a+1,\eta_d}/(a+1)\), using the Teichmüller lift of \(\omega\). The third quantity \(B_{1,\eta_d}\) is \(-1/3\) or \(-1\), respectively. At \(e=52\) the two denominators are \(3,9\) and \(1,49\), respectively. Exact arithmetic gives \(\gcd(A_3,A_7)=4\). Use \(E_3\) when \(\ell\nmid A_3\), and \(E_7\) otherwise. All three units now hold in the selected field. By \cite[ES.5]{ktower} every actual point there is cuspidal of rank three and is not essentially self-dual.
+\paragraph{Identifying the length.}
+Specialize Alpöge's construction to level \(N=2\), the trivial
+Dirichlet character, and the coefficient ring \(\Z_\ell\) in
+\(\overline{\Q}_\ell\). The coefficient module is
+\(\Z_\ell\otimes_{\Z_\ell}(\Q_\ell/\Z_\ell)\) with cyclotomic action
+of exponent \(-e\), hence is \(D\). In the pinned development,
+\href{\scl/ClassNumberThree.lean\#L13-L30}{\texttt{vlen\_one}}
+identifies \(\mathrm{Vlen}\) with the length for this twist over \(\Q\).
+The cocycle criterion
+\href{\scl/LenEqZeroIff.lean\#L9-L63}{\texttt{len\_eq\_zero\_iff}}
+says that the length is zero precisely when every cocycle that is a
+coboundary on each \(I_q\) and on both \(G_2,G_\ell\) is a global
+coboundary. Each local group has its own coboundary witness.
+Thus \(\mathrm{Vlen}=0\) if and only if \(S_e=0\), for either \(E_d\).
 
-\textit{Compact level.} The level characters at \(N=2\) are trivial since \(\mu_2\subset\Q\). The level theorem in~\cite{alpoge} applied to \(\rho\chi_\ell^{-1}\) gives an everywhere finite-spherical conjugate-self-dual \(\Pi\) on \(\mathrm{GL}_3/E_d\). Its central character is trivial by its infinity type and class number one. The finite vector for the full stabilizer of the standard Hermitian lattice occurs on the definite unitary group in weight \((e-1,0,1-e)\). Indeed the global parameter is simple generic with trivial reduced component group, so~\cite{kmsw} permits the compact member at infinity and the spherical members at good places. At ramified \(d\), the bounded roots~\cite{shin} are \(z,1,z^{-1}\). They are the stable lift of the unramified torus character with values \(z\) on a uniformizer and \(1\) on \(U(1)\). In normalized induction from the Borel \(B\), the function supported on \(BJ_d\) with value 1 at the identity is fixed by the full stabilizer \(J_d\). Compact invariants are exact, giving a fixed vector in a constituent of the required packet \cite[\S4.7]{kmsw}.
+Suppose \(K_{2e}(\Z)/\ell\ne0\). By \cite[Thm.~5.1]{jkpsz}, the
+\(\omega^{-e}\)-component of the class group of \(L=\Q(\zeta_\ell)\)
+modulo \(\ell\) is nonzero. An equivariant quotient onto \(D[\ell]\)
+gives an unramified class over \(L\) by class field theory.
+The unique prime above \(\ell\) is principal, so its Frobenius in
+this quotient is trivial. Since \([L:\Q]=\ell-1\), inflation--restriction
+descends the class to \(\Q\) and preserves its local triviality at \(\ell\).
+At every other finite prime the extension \(L/\Q\) is unramified.
+As \(0<e<\ell-1\), we have \(D^{G_\Q}=0\), so the exact sequence for
+multiplication by \(\ell\) injects the descended class into \(H^1(\Q,D)\).
+At \(2\) the unramified group is \(D/(2^{-e}-1)D=0\), since the nonzero
+scalar acts surjectively on the divisible module \(D\).
+We have proved \(K_{2e}(\Z)/\ell\ne0\Rightarrow S_e\ne0\).
 
-\sect{2. Normalization of the Hecke operators}
-Set \(u_Q=Q^{2e}+Q^e+1\). At geometric Frobenius of norm \(Q\), the twist by \(\chi_\ell^{-1}\) and the source's algebraic Satake normalization both multiply by \(Q\). Thus \(\tr\rho\) is the unitary Satake trace. At split \(p\) the neighbor operator \(H_w\) has eigenvalue \(p\sum z_i\), so \(p^{e-1}H_w\) has residual target \(u_p\) in each direction. At inert \(2\) over \(E_3\), the 18 distance-two neighbors have horospherical counts \(1,1,16\), giving \(H=4z+1+4z^{-1}\) on the eigenline. The base-change roots \(z,1,z^{-1}\)~\cite{minguez} give trace \((H+3)/4\).
+\paragraph{One representation at all tested places.}
+Both fields satisfy the eligibility conditions of Step~17.
+The Minkowski bound \(2\sqrt d/\pi<2\) gives class number one.
+The discriminant \(-d\) is prime to \(2\ell\), and ramification at \(d\)
+implies \(E_d\not\subset L\). This gives the kernel condition for the
+trivial character. Its order, square and parity satisfy the character
+conditions since \(e\) is even. Finally \(0<2e<\ell-1\), and the
+coefficient ramification index is one.
+
+Apply \cite[K17-S17-JOINT]{ktower} with the nine inputs assembled inside
+\href{\scl/CorGKOf.lean\#L10-L27}{\texttt{corGK\_of}} and supplied
+by \texttt{corGK} in \cite{alpoge}. If the deformation model had no
+admissible points, its upper bound at the identity would have an empty
+covering set, making its finite length zero. The comparison of lengths
+would force \(\mathrm{Vlen}=0\). Positive length therefore supplies a
+point \(f\). Its integral representation has diagonal residual characters
+\(\omega^e,1,\omega^{-e}\) on \(G_{E_d}\). In particular, at the
+coefficient prime \(\lambda\) determined by this point,
+\[
+  \tr\rho_f(g)\equiv 1+\omega(g)^e+\omega(g)^{-e}\pmod{\lambda}
+  \qquad(g\in G_{E_d}).
+\]
+Thus all tests in one field concern a single system of Hecke eigenvalues.
+The common eigenvector allows us to add its two Hecke eigenvalues. Separate witnesses at the two places would give no such identity. The construction can supply a different point in the other field. The nine input terms and their source declarations are listed in \href{\kt\#L154-L218}{the Montpellier checkpoint}.
 
 \newpage
-\sect{3. The degree-104 certificate and the finite range}
-Conjugation \(J\) exchanges split directions and fixes \(H\). The characteristic-zero eigensystems of \(v,Jv\) are distinct since \(\Pi^c=\Pi^\vee\ne\Pi\) by the unit criterion and Frobenius compatibility. Thus \(v-Jv\ne0\) has the same eigenvalues as \(v\) for the invariant operators. For any such operator, if its integral characteristic polynomial has a root \(s\equiv0\bmod\lambda\), its constant term vanishes modulo \(\lambda\). This applies even if \(v\equiv Jv\bmod\lambda\).
+\section{Choosing the field and identifying the Hecke operators}
+\label{sec:field-operators}
+For \(\eta_d=\chi_{-d}\) set \(b_{n,d}=|\num(B_{n,\eta_d}/n)|\)
+in lowest terms and \(A_d(e)=b_{e+1,d}b_{2e+1,d}\).
+The three units in \cite[ES.5]{ktower} have different roles.
+\(B_{1,\eta_d}\) gives the class-number condition,
+\(B_{1,\eta_d\omega^{2e}}\) excludes the rank-two source type, and
+\(B_{1,\eta_d\omega^e}\) excludes a self-dual rank-three source.
+Under the first unit, essential self-duality of an actual source would
+give self-duality. Thus a surviving point in this field gives a cuspidal
+rank-three representation which is not essentially self-dual.
+Here the Bernoulli numbers use the Teichmüller lift of \(\omega\).
+The first value is \(-1/3\) or \(-1\), and the other two are congruent
+modulo \(\ell\) to \(B_{a+1,\eta_d}/(a+1)\) for \(a=2e,e\),
+respectively \cite[FV.3]{ktower}. The certificate checks that all these rational denominators are smaller than \(2^{31}\). Consequently any field with
+\(\ell\nmid A_d(e)\) satisfies all three conditions. We use \(E_3\)
+when \(\ell\nmid A_3(e)\) and \(E_7\) otherwise. The numerical
+checks below verify the required units in the second case.
 
-Take \(e=52\) and set \(p_1=43279339111,\ p_2=490440141803,\ p_3=63421406191963401438831238997\) and \(p_4=b_{105,3}/2162\). The certificates give \(b_{53,3}=2p_1p_2p_3\) and \(b_{105,3}=2\cdot23\cdot47p_4\), with all four \(p_i\) prime. Write \(M=\prod_i p_i\). Over \(E_3\) at \(\ell\nmid M\), a witness would force both shifted determinants on the rank-324 negative space to vanish modulo \(\ell\). In terms of the unweighted neighbor operators the two shifts and the recorded gcd are
-\[
- X=4^{51}(H+3I)-u_4I,\qquad Z=7^{51}(H_w+H_{\bar w})-2u_7I.
-\]
-\[
- \gcd(\det X,\det Z)=3^{1578}5^{33}11^{31}19^{18}23^6\cdot29\cdot79\,p_1p_2p_3 .
-\]
-Over \(E_7\) at each \(\ell\mid M\), \(J\) preserves both lattice classes~\cite{loeffler}. Their scaled split-2 sum has blocks \(\left(\begin{smallmatrix}A&B\\D&0\end{smallmatrix}\right)\). Its eigenvalue \(s\) on \(v-Jv=(x,y)\) satisfies \(s\equiv t=2u_2\bmod\lambda\). Since \(\gcd(t,M)=1\), \(s\ne0\) and \(x\ne0\). Eliminate \(y\) to get \(F(s)=0\), where \(F(T)=\det((T^2I-TA-BD)|_{H_0^-})\) on the standard-class negative space of rank \(\binom{27}{3}=2925\). The scaled correspondences preserve lattices away from 2, so \(F(t)\equiv0\bmod\lambda\). Integral evaluation of the signed polynomial basis gives \(W=V[t^2I-tA-BD]\) on this space, hence \(\det W=\det V\,F(t)\). The four certified residues give \(\gcd(\det W,M)=1\), a contradiction.
+\paragraph{The full lattice stabilizer.}
+At level two the allowed inertial characters factor through the
+action on \(\mu_2\subset\Q\), which is trivial. Applying the \href{https://github.com/CocoSgt/riemann-hypothesis-lean/blob/7cbf7a0c32fca1badf05931879a37c3f8a2b03b4/src/Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/KeepLevel.lean\#L30-L36}{level theorem} to \(\rho_f\chi_\ell^{-1}\) with modulus one gives a
+regular algebraic conjugate-self-dual cuspidal representation \(\Pi\)
+of \(\mathrm{GL}_3/E_d\), spherical at every finite place.
+Its infinitesimal parameter is \((e,0,-e)\). Its central character is
+unramified at finite places and trivial at infinity, hence trivial
+by class number one \cite[compact transfer]{ktower}.
 
-\textit{A cross-check from the adjoint space.} For weight 53, level 3 and character \(\eta_3\), let \(a_q\) be the \(T_q\)-eigenvalue and \(\Delta_q\) the adjoint trace at the tested place minus \(1+Q^{52}+Q^{-52}\), with \(Q=4,7\) respectively. The identity \(\tr\operatorname{Ad}^0(g)=(\tr g)^2/\det g-1\) gives
-\[
- 2^{104}\Delta_2=(a_2^2+2^{53})^2-(1+2^{104})^2,\qquad
- 7^{52}\Delta_7=a_7^2-(1+7^{52})^2.
-\]
-Their determinants on the \(16\times16\) Hecke matrices have gcd \(3^{76}5^{12}11^2 19^2(p_1p_2p_3)^2\).
+Use the definite unitary group of the standard ternary Hermitian lattice.
+It is a pure inner form, quasi-split at finite places. The infinity
+characters \((z/\bar z)^e,1,(z/\bar z)^{-e}\) have positive conjugate
+parity, as required for untwisted stable base change in odd rank.
+The simple generic parameter of \(\Pi\) has trivial reduced component group. The global
+multiplicity formula therefore allows the compact member at infinity,
+of highest weight \((e-1,0,1-e)\), and the spherical members at split
+and unramified inert places \cite[Ch.~5]{kmsw}.
+At the ramified prime \(d\), let \(J_d\) be the full lattice stabilizer.
+Conjugate self-duality and determinant one give unramified roots
+\(z,1,z^{-1}\) for \(\Pi_w\), unitary by \cite[Cor.~1.3]{shin}.
+On the diagonal torus \((E_d)_w^\times\times U(1)\), the unramified
+character with uniformizer value \(z\) on the first factor and trivial on
+the second has precisely these stable base-change roots. The constituents
+of its normalized principal series belong to the corresponding tempered
+packet \cite[\S4.7]{kmsw}. For the ramified principal series the stable base change and its reducible cases are described in \cite[\S4.4, Props.~6.1 and 7.1]{adler}. The inducing character and Borel modulus are
+trivial on \(B\cap J_d\). The induced function supported on \(BJ_d\)
+with value one at the identity is therefore \(J_d\)-fixed. Exactness of
+compact invariants in characteristic zero gives a fixed vector in a
+constituent, including when roots coincide. This is the level used by
+the neighbor matrices.
 
-\textit{Lower degrees.} For even \(2\le e\le50\), the odd part of \(\gcd(A_3,A_7)\) is 1 except at \(e=12,18,36,42\), where it is \(47,37,37^2,43^2\), respectively. The same field choice works. Over \(E_3\), the gcd of the two products \(C_2U_2,C_7U_7\) of classical and compact determinants has large prime support exactly that of \(A_3\). A stable source forces both compact factors to vanish. Through degree 72 the remaining primes are excluded by directed compact determinants or cyclotomic tests. In degrees \(76,80,\ldots,100\) the seven signed matrices have determinants coprime to the moduli \(M_e\) containing all large survivors. For \(\ell<2^{31}\), \cite{jkpsz,hho} exclude odd torsion and~\cite{weibel} treats the prime 2. Finiteness gives the theorem.
-\begin{center}\small
-\begin{tabular}{@{}lrrrrrrrr@{}}\toprule
-Degree & 76 & 80 & 84 & 88 & 92 & 96 & 100 & 104\\\midrule
-Signed rank over \(E_7\) & 1140 & 1330 & 1540 & 1771 & 2024 & 2300 & 2600 & 2925\\
-Modulus size (bits) & 368 & 419 & 426 & 475 & 489 & 515 & 527 & 602\\
-\(\gcd(\det W_e,M_e)\) & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\\bottomrule
+\paragraph{Two trace normalizations.}
+At geometric Frobenius of norm \(Q\), the twist \(\chi_\ell^{-1}\)
+and the algebraic Satake normalization each multiply by \(Q\).
+Thus \(\tr\rho_f\) is the sum of the unitary Satake roots.
+Set \(u_Q=Q^{2e}+Q^e+1\). At split \(p\) the unweighted neighbor
+operator \(H_w\) has eigenvalue \(p\sum_i z_i\), with the inverse
+roots in the opposite direction. Each scaled operator \(p^{e-1}H_w\)
+and \(p^{e-1}H_{\bar w}\) has residual eigenvalue \(u_p\).
+At inert \(2\) in \(E_3\) the residue norm is \(4\). Relative to an
+end of the unitary tree, the 18 distance-two neighbors consist of one
+toward the end, one at the original height, and sixteen away.
+The normalized Satake coefficients at the two extreme heights are both
+\(\sqrt{16}=4\). Hence the unweighted operator \(H\) has eigenvalue
+\(4z+1+4z^{-1}\), whereas base change has roots \(z,1,z^{-1}\)
+\cite[Thm.~4.1]{minguez}. Its trace on the eigenline is \((H+3I)/4\),
+so \(4^{e-1}(H+3I)\) has residual eigenvalue \(u_4\).
+
+\newpage
+\section{Degree 104}
+\label{sec:degree104}
+
+Set \(e=52\) and let \(\ell\ge 2^{31}\) be prime. A nonzero
+strict Selmer group would force a determinant to vanish modulo \(\ell\) in
+one of the two fields. The Bernoulli numbers determine which field to use.
+Put
+\[
+\begin{split}
+ p_1&=43\,279\,339\,111,\qquad p_2=490\,440\,141\,803,\\
+ p_3&=63\,421\,406\,191\,963\,401\,438\,831\,238\,997,\qquad
+ p_4=b_{105,3}/2162.
+\end{split}
+\]
+The certificate proves primality of the four integers. Exact arithmetic gives
+\[
+ b_{53,3}=2p_1p_2p_3,\qquad b_{105,3}=2\cdot23\cdot47\,p_4,
+ \qquad \gcd(b_{53,3}b_{105,3},b_{53,7}b_{105,7})=4.
+\]
+Thus the unit criterion applies over \(E_3\) at every large prime outside
+\(M=p_1p_2p_3p_4\), and over \(E_7\) at each prime dividing \(M\).
+
+\subsection{Why the negative eigenspace sees the witness}
+Let \(v\) be a compact Hecke eigenvector belonging to the representation
+\(\Pi\) supplied in the selected field. Conjugation of the field, together
+with the exchange of the two sets of coefficient variables, induces a
+linear involution \(J\) on the space of forms. It fixes the standard lattice
+class. Over \(E_7\) it also fixes the other class, since there are exactly
+two. The choice of identification of a class with its conjugate has no
+effect on vectors invariant under its stabilizer.
+
+The eigenvector \(Jv\) belongs to the conjugate system \(\Pi^c\).
+Conjugate self-duality gives \(\Pi^c\simeq\Pi^\vee\). Equality with \(\Pi\)
+would make the attached Galois representation self-dual by Frobenius
+compatibility and Chebotarev, contrary to the Bernoulli criterion.
+Strong multiplicity one distinguishes the two systems at a finite
+unramified place. Thus \(v-Jv\) is nonzero in characteristic zero. An
+operator commuting with \(J\) has the same eigenvalue on \(v-Jv\) as on
+\(v\), provided \(v\) is its eigenvector. This applies to an inert neighbor
+operator and to the sum of the two directions at a split prime.
+
+\subsection{The two first-field determinants}
+In the single lattice class over \(E_3\), counting the invariant polynomial
+basis in bidegree \((51,51)\) gives dimension 657 and trace 9 for \(J\).
+The negative eigenspace has dimension \((657-9)/2=324\). Write
+\(u_Q=1+Q^{52}+Q^{104}\). For the inert neighbor operator \(H\) at 2 and
+the two directed operators at 7, the shifted matrices on that space are
+\[
+ X=4^{51}(H+3I)-u_4 I,\qquad
+ Z=7^{51}(H_w+H_{\bar w})-2u_7 I .
+\]
+The shift at 2 uses residue norm 4 and trace \((H+3I)/4\). At 7 each
+direction has scaled target \(u_7\) at the same coefficient prime.
+The eigenvalue of each shifted operator on \(v-Jv\) therefore reduces to
+zero. Each characteristic polynomial is integral at \(\ell\). Evaluating it
+at its characteristic-zero eigenvalue and reducing shows that its constant
+term vanishes modulo \(\ell\), even when a chosen integral representative
+of \(v-Jv\) reduces to zero.
+
+The exact integer determinants give
+\[
+ \gcd(\det X,\det Z)=3^{1578}5^{33}11^{31}19^{18}23^6\cdot29\cdot79
+                      \cdot p_1p_2p_3 .
+\]
+This excludes every large \(\ell\nmid M\). At \(p_4\) the determinant gcd is a unit, but \(p_4\mid b_{105,3}\). The unit criterion that put the hypothetical witness in the negative eigenspace over \(E_3\) therefore fails. All four primes therefore go to the second field.
+
+There is an independent check at the first two primes. For the \emph{ordinary}
+Bernoulli numbers the residues of \(B_{p_i-53}\) modulo \(p_i\) are
+\(14\,311\,957\,058\) for \(i=1\) and \(449\,277\,795\,842\) for \(i=2\).
+Each nonzero residue already excludes its prime from \(K_{104}(\Z)\) by the
+cyclotomic argument below. The second-field computation tests all four.
+
+\subsection{One second-field determinant}
+Over \(E_7\), the prime 2 splits. Write the scaled sum
+\(2^{51}(H_w+H_{\bar w})\) in the standard and nonstandard lattice
+classes as \(\left(\begin{smallmatrix}A&B\\D&0\end{smallmatrix}\right)\).
+The zero block expresses the fact that all seven neighbors of the
+nonstandard class in each direction return to the standard class
+\cite[\S3]{loeffler}. Each class has its own negative eigenspace.
+Write \(v-Jv=(x,y)\) in these two spaces. Its eigenvalue \(s\) satisfies
+\(s\equiv t=2u_2\pmod\lambda\), where \(\lambda\) is the common
+coefficient prime above \(\ell\). Since \(\gcd(t,M)=1\), we have \(s\ne0\).
+The equations \(Ax+By=sx\) and \(Dx=sy\) imply \(x\ne0\) and
+\[
+ (s^2I-sA-BD)x=0 .
+\]
+Put \(L(T)=T^2I-TA-BD\) on the standard negative space and
+\(F(T)=\det L(T)\). The dimension of that space is \(\binom{27}{3}=2925\). One way
+to obtain this rank is to take, for \(j=51,50\), the cube-rotation
+invariants of \(\bigwedge^2\operatorname{Sym}^j(\Q^3)\).
+Subtracting their dimensions imposes the incidence relation \(x\cdot y=0\)
+on the two polynomial variables. For \(j=2k-1,2k-2\), twice the exterior-square character
+difference on the identity, half-turns, quarter-turns and third-turns is,
+respectively, \(2k(4k^2-1),-2k,2k,0\).
+Weighting by the class sizes \(1,9,6,8\) and dividing by \(2\cdot24\) gives \(\binom{k+1}{3}\);
+here \(k=26\).
+
+The scaled neighbor maps preserve local coefficient lattices away from 2.
+The polynomial lattice modulo the incidence relation is torsion-free
+by division by its monic leading term. Taking stabilizer invariants and
+applying \((I-J)/2\) gives local lattices for the operators above, so
+\(F\) is integral at each candidate prime. Hence \(F(s)=0\) implies
+\(F(t)\equiv0\pmod\lambda\).
+
+The calculation evaluates a basis of integral polynomials at integral
+incidence pairs. If \(V\) is their evaluation matrix and \(W\) evaluates
+their images under \(L(t)\), then \(W=V[L(t)]\) in this basis.
+Consequently \(\det W=\det V\,F(t)\), with \(\det V\) integral. The
+divisibility \(\ell\mid\det W\) follows even if \(V\) becomes singular
+after reduction. In the signed polynomial basis, each column is obtained by substituting neighbor representatives in its basis polynomial. The term \(BD\) sums two-step paths through the other lattice class. Both same-direction and opposite-direction paths enter because the operator is a sum of directions. Pairing each directed contribution with its conjugate gives an integral field trace; evaluating at the chosen incidence pairs produces the entries of \(W\). The certificate constructs \(W\) modulo the 602-bit
+integer \(M\) and computes its determinant over the four prime fields.
+For example the first two residues are \(32\,189\,186\,543\) and
+\(445\,745\,447\,561\), respectively. The four residues give
+\(\gcd(\det W,M)=1\), a contradiction in each case. This finishes the
+large-prime argument in degree 104.
+
+\paragraph{An independent check on the adjoint branch.}
+The weight-53 cusp space of level 3 and character \(\chi_{-3}\) gives
+a separate check of the two first-field trace targets for adjoint systems.
+Write \(a_q\) for the eigenvalue of \(T_q\) and \(\Delta_q\) for the trace
+of the trace-zero adjoint representation at the tested place minus
+\(1+Q^{52}+Q^{-52}\). The residue norms at \(q=2,7\) are \(Q=4,7\),
+respectively. At the inert prime the Frobenius over \(E_3\) is the square
+of the rational Frobenius. Thus \(\tr\operatorname{Ad}^0(g)=(\tr g)^2/\det g-1\)
+gives
+\[
+\begin{aligned}
+ 2^{104}\Delta_2&=(a_2^2+2^{53})^2-(1+2^{104})^2,\\
+ 7^{52}\Delta_7&=a_7^2-(1+7^{52})^2 .
+\end{aligned}
+\]
+The \href{https://github.com/leopintar05/hecke-k-theory-104/blob/v5/check_adjoint104.py}{adjoint verifier}
+constructs both \(16\times16\) matrices from Fourier expansions. The gcd
+of the determinants of the displayed polynomials in those matrices is
+\(3^{76}5^{12}11^2 19^2(p_1p_2p_3)^2\).
+
+\newpage
+\section{The other 25 degrees and the small primes}
+\label{sec:lower}
+For each even \(2\le e\le50\), the odd part of
+\(\gcd(A_3(e),A_7(e))\) equals 1 except at \(e=12,18,36,42\),
+where it equals \(47,37,37^2,43^2\), respectively. All relevant
+Bernoulli denominators are smaller than \(2^{31}\). Hence, at every large
+prime \(\ell\), the three unit conditions hold over \(E_3\) if
+\(\ell\nmid A_3(e)\), and over \(E_7\) if \(\ell\mid A_3(e)\).
+
+Write \(C_q,U_q\) for the archived shifted classical and full compact
+determinants in the first field at the probe \(q=2,7\), and put
+\(G_e=\gcd(C_2U_2,C_7U_7)\). With
+\(b_j=|\num(B_{j,\eta_3}/j)|\), the recorded integers satisfy
+\[
+ v_\ell(G_e)=v_\ell(b_{e+1})+3v_\ell(b_{2e+1})\qquad(\ell>337).
+\]
+For each of the 25 exponents the certificate expresses the reduced numerator
+and denominator of \(G_e/(b_{e+1}b_{2e+1}^3)\) as products of factors
+at most 337. This proves the displayed finite identity.
+At a large \(\ell\nmid A_3(e)\), a witness would force
+\(\ell\mid U_2\) and \(\ell\mid U_7\), hence \(\ell\mid G_e\).
+The identity rules this out. The following table accounts for the
+large divisors of \(A_3(e)\) that are left.
+
+\begin{center}
+\small
+\begin{tabular}{@{}l p{0.64\linewidth}@{}}\toprule
+Degree \(2e\) & Exclusion of remaining large primes \\ \midrule
+4, 8, 12, 16, 24, 28 & \(A_3(e)\) has no prime divisor at or above \(2^{31}\).\\
+20, 36 & One cyclotomic exclusion in each degree.\\
+32, 40 & One directed \(E_7\) test in each degree, and one further cyclotomic exclusion in degree 40.\\
+44, 48 & Directed \(E_7\) tests at two primes and one prime, respectively.\\
+52, 56, 60, 64, 68 & Directed \(E_7\) tests at \(4,2,4,4,3\) primes, respectively.\\
+72 & A rank-1,944 directed test modulo a product containing all large divisors.\\
+76, 80, 84, 88, 92, 96, 100 & One signed \(E_7\) test per degree, of ranks 1,140, 1,330, 1,540, 1,771, 2,024, 2,300 and 2,600, respectively.\\ \bottomrule
 \end{tabular}
 \end{center}
-The \href{https://github.com/leopintar05/hecke-k-theory-104/blob/v4/paper/coverage.md}{detailed proof} and \href{https://github.com/leopintar05/hecke-k-theory-104/releases/tag/v4}{certificates and verifiers} give the degree-by-degree checks, exact residues and matrix generators.
+
+In a cyclotomic row put \(j=\ell-1-e\). The group in
+\cite[Thm.~5.1]{jkpsz} is the even \(\omega^j\)-component modulo
+\(\ell\) of the cyclotomic class group. For these primes
+\(2\le j\le\ell-3\). The reflection inequality bounds its dimension by
+that of the \(\omega^{1-j}\)-component. Herbrand's theorem makes the latter
+zero if \(B_j\not\equiv0\pmod\ell\). These are ordinary Bernoulli numbers.
+For instance, in degree 20 the remaining prime is \(9\,496\,386\,083\)
+and the residue is \(3\,753\,150\,554\).
+The other two nonzero residues appear in the same
+\href{https://github.com/leopintar05/hecke-k-theory-104/releases/tag/v1.1}{certificate archive}.
+For the cyclotomic criterion see also \cite[\S1]{ribet}.
+
+A directed test uses one of the two places above 2 in \(E_7\) and the
+target \(u_2=2^{2e}+2^e+1\). The block elimination uses this target
+in place of the doubled target for the sum of directions. The
+certificates check it is a unit. For the prime-by-prime tests the
+norm of the determinant, or the product from its two coefficient embeddings,
+is a unit modulo the tested prime. At degree 72 the calculation verifies
+right inverses for both the evaluation and numerator matrices modulo the
+recorded modulus. These identities persist modulo every prime divisor.
+In the final seven degrees the archived modulus \(M_e\) is obtained from
+\(A_3(e)\) by removing specified factors below \(2^{31}\). The signed
+calculation gives \(\gcd(2u_2,M_e)=\gcd(\det W_e,M_e)=1\) in every row.
+Thus every possible large prime is excluded.
+
+For odd \(\ell<2^{31}\) the character \(\omega^{-e}\) is even.
+The Kummer--Vandiver computation of Hart, Harvey and Ong~\cite{hho}
+gives trivial \(\ell\)-part in the plus class group throughout this range,
+so \cite[Thm.~5.1]{jkpsz} gives \(K_{2e}(\Z)/\ell=0\).
+Weibel's table gives trivial 2-primary part in positive degrees divisible
+by four~\cite[VI, Cor.~9.8]{weibel}. Since these groups are finite,
+the exclusion of every prime proves the theorem, including degree 104.
+
+\newpage
+\section{Independent checks and reproducibility}
+\paragraph{Two further cyclotomic checks in degree 104.}
+In Section~\ref{sec:degree104}, the two ordinary Bernoulli residues at
+\(p_1,p_2\) give separate exclusions by reflection and Herbrand's theorem.
+Here is the reflection argument for the even index \(j=p-53\). Let \(A\) be the class group of \(\Q(\zeta_p)\) modulo \(p\).
+The Kummer radical of its maximal unramified elementary abelian \(p\)-extension
+is dual to \(A\) with values in \(\mu_p\). Its \(\omega^{1-j}\)-part has
+dimension \(\dim A_{j}\) and lies in the classes of elements whose finite
+valuations are divisible by \(p\). Modulo units these classes inject into
+the \(p\)-torsion of the class group, via \((a)=\mathfrak a^p\mapsto[\mathfrak a]\).
+The only odd character in the units modulo \(p\) is \(\omega\), from roots
+of unity. For the nontrivial even \(j\) here the \(\omega^{1-j}\)-unit part
+vanishes. This proves \(\dim A_j\leq\dim A_{1-j}\), since the \(p\)-torsion
+and the quotient modulo \(p\) have the same dimension in each character.
+
+The release's \texttt{check\_reflection104.py} computes these residues with
+FLINT and checks its evaluation against exact rational Bernoulli numbers
+at two small primes.
+
+\paragraph{Verifying the computation.}
+In the release, \texttt{python3 check\_step17\_coverage.py} recomputes the
+Bernoulli quantities, checks the 25 support identities and tests the
+exclusions against the stored records. For degrees through 72 it removes
+from \(A_3(e)\) the prime powers covered by the recorded tests and verifies
+that only small factors remain. The nested through-40, through-48 and
+through-72 archives supply the original calculations.
+\texttt{check\_through100.py} also checks the products of the recorded
+determinant blocks in the seven signed rows.
+For degree 104 the separate reconstruction program \texttt{reproduce.py}
+regenerates the matrices. The archived replay reproduced both rank-324
+matrices and all four rank-2,925 residues, and a second evaluator checked
+three complete rows (8,775 entries).
+The \href{https://github.com/leopintar05/hecke-k-theory-104/blob/v5/REPRODUCE.md}{reproduction instructions}
+give the commands for each type of check.
+
+\noindent The \href{https://github.com/leopintar05/hecke-k-theory-104/releases/tag/v5}{versioned release} contains the manuscript, TeX source, arithmetic verifiers and certificate bundle.
 
 {\small\textit{Contributions.} Leo Pintar initiated and led this investigation into the \(K\)-theoretic consequences of Alpöge’s Step 17. OpenAI Codex contributed to the mathematical arguments, wrote and ran the verification code, and drafted the manuscript.}
 
 \begingroup\small
 \renewcommand{\refname}{References}
-\begin{thebibliography}{9}
+\begin{thebibliography}{11}
 \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
 \bibitem{alpoge} L. Alpöge, \href{https://alpo.ge/remark.pdf\#page=4}{\textit{Remark}}, Step 17, footnote 6 (2026). \href{https://github.com/CocoSgt/riemann-hypothesis-lean/blob/7cbf7a0c32fca1badf05931879a37c3f8a2b03b4/src/Development/AutomorphicArithmetic/AutomorphicVarieties/SmallClassNumbers/CorGKOf.lean}{Lean archive, \texttt{7cbf7a0}, \texttt{corGK\_of}}.
 \bibitem{ktower} Grothendieck--Montpellier archive, \href{\kt}{\textit{KTOWER: The Galois action on the tower, the \(K\)-groups of \(\Z\), and cote 149}}, research snapshot credited to GPT-6 Astra Pro, 21 November 2026, checkpoint 11, \texttt{edb183a9}. \href{\kt\#L4158-L4272}{K17-S17-JOINT}, \href{\kt\#L7811-L7829}{FV.3}, \href{\kt\#L15707-L15740}{ES.5}.
-\bibitem{kmsw} T. Kaletha, A. Mínguez, S. W. Shin and P.-J. White, \href{https://arxiv.org/pdf/1409.3731\#page=206}{\textit{Endoscopic classification of representations: Inner forms of unitary groups}}, \S4.7 and Thm. 5.0.5 (2014).
+\bibitem{kmsw} T. Kaletha, A. Mínguez, S. W. Shin and P.-J. White, \href{https://arxiv.org/pdf/1409.3731v3\#page=206}{\textit{Endoscopic classification of representations: Inner forms of unitary groups}}, \S4.7 and Thm. 5.0.5 (2014).
+\bibitem{adler} J. D. Adler and J. M. Lansky, \href{https://arxiv.org/abs/0807.1528v2}{\textit{Depth-zero base change for ramified \(U(2,1)\)}}, \S4.4, Props. 6.1 and 7.1.
+\bibitem{ribet} K. A. Ribet, \href{https://math.berkeley.edu/~ribet/Articles/invent_34.pdf}{\textit{A modular construction of unramified \(p\)-extensions of \(\Q(\mu_p)\)}}, Invent. Math. 34 (1976), 151--162.
 \bibitem{shin} S. W. Shin, \href{https://annals.math.princeton.edu/2011/173-3/p09}{\textit{Galois representations arising from some compact Shimura varieties}}, Cor. 1.3 (2011).
 \bibitem{minguez} A. Mínguez, \href{https://www.imj-prg.fr/fa/bpFiles/Minguez.pdf}{\textit{Unramified representations of unitary groups}}, Thm. 4.1.
 \bibitem{loeffler} D. Loeffler, \href{https://arxiv.org/abs/0801.3176}{\textit{Explicit calculations of automorphic forms for definite unitary groups}}, \S3 (2008).
