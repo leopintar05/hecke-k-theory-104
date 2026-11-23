@@ -6,7 +6,7 @@
 \usepackage{xcolor,hyperref}
 \definecolor{link}{HTML}{174E70}
 \hypersetup{colorlinks=true,linkcolor=link,urlcolor=link,citecolor=link,
- pdftitle={Hecke calculations for the conditional vanishing of K4k(Z) through degree 104},
+ pdftitle={Vanishing of K4k(Z) through degree 104 from Alpöge’s Step 17},
  pdfauthor={Leo Pintar},pdfdisplaydoctitle=true}
 \urlstyle{same}
 \setlength{\parindent}{0pt}
@@ -19,24 +19,26 @@
 \newcommand{\num}{\operatorname{num}}
 \newcommand{\sect}[1]{\par\smallskip{\large\bfseries #1}\par}
 \setlength{\emergencystretch}{1em}
+\newcommand{\scl}{https://github.com/CocoSgt/riemann-hypothesis-lean/blob/7cbf7a0c32fca1badf05931879a37c3f8a2b03b4/src/Development/AutomorphicArithmetic/AutomorphicVarieties/SmallClassNumbers}
 \newcommand{\kt}{https://github.com/KokunoYumeto/grothendieck-montpellier-archive/blob/edb183a9af46cb9568e0d3caf2248e98b491e6fb/raw/research_returns/KTOWER_checkpoint_11_20261122T0001Z_unzipped/KTOWER.tex}
 \begin{document}
 \fontsize{10.5pt}{12pt}\selectfont
 \begin{center}
-{\LARGE\bfseries Hecke calculations for the conditional vanishing\\[2pt]of \(K_{4k}(\Z)\) through degree 104\par}
+{\LARGE\bfseries Vanishing of \(K_{4k}(\Z)\) through degree 104\\[2pt]from Alpöge’s Step 17\par}
 \vspace{4pt}{\large Leo Pintar}\quad École Polytechnique\\[2pt]
-Version 3, 22 November 2026
+Version 4, 23 November 2026
 \end{center}
 
-\textbf{Abstract.} Following a suggestion of Alpöge~\cite{alpoge}, we combine the Grothendieck--Montpellier archive's joint residual representation theorem and Bernoulli unit criterion~\cite{ktower} with explicit Hecke determinants. Under the strict Selmer comparison in Alpöge's Step~17 construction, we obtain \(K_{4k}(\Z)=0\) for \(1\le k\le26\). At degree 104 two matrices of rank 324 exclude all large primes outside a set of four, and a matrix of rank 2,925 excludes those four. The cited Montpellier checkpoint reports vanishing through degree 80 under its source convention.
+\textbf{Abstract.} From the arithmetic construction in Alpöge's Step~17~\cite{alpoge}, we deduce \(K_{4k}(\Z)=0\) for \(1\le k\le26\). We identify its Selmer length at the trivial character with the strict Selmer condition over \(\Q\). The Grothendieck--Montpellier archive's joint representation theorem and Bernoulli criterion~\cite{ktower} reduce the problem to explicit Hecke determinants. In degree 104 two rank-324 tests leave four primes to check in a second field, where one rank-2,925 test excludes all four.
 
 \sect{1. From a strict Selmer class to a compact Hecke eigensystem}
-Put \(e=2k\), \(E_d=\Q(\sqrt{-d})\) for \(d=3,7\), and let \(\ell\ge2^{31}\) be prime. Let \(S_e\) consist of the classes in \(H^1(\Q,(\Q_\ell/\Z_\ell)(-e))\) trivial on all finite inertia groups and on the decomposition groups at \(2,\ell\). The cyclotomic comparison~\cite{jkpsz} gives \(K_{2e}(\Z)/\ell\ne0\Rightarrow S_e\ne0\). Indeed the unramified cyclotomic class descends by the prime-to-\(\ell\) extension degree. The prime above \(\ell\) is principal, and multiplication by \(2^{-e}-1\) on \(\Q_\ell/\Z_\ell\) is surjective, giving the strict conditions.
-
-\textbf{Hypothesis and theorem.} Use the closed inputs of Alpöge's pinned Step~17 construction~\cite{alpoge}. Assume its strict length \texttt{Vlen}, at level 2 with trivial character and coefficients \(\Z_\ell\), is positive whenever \(S_e\ne0\), in the fields and at the primes used below. Then
+\textbf{Theorem.} Assume the arithmetic construction in Alpöge's pinned Step~17~\cite{alpoge}. Then
 \[
 \boxed{\ K_{4k}(\Z)=0\quad(1\le k\le26).\ }
 \]
+Put \(e=2k\), let \(\ell\ge2^{31}\) be prime, and write \(E_d=\Q(\sqrt{-d})\) for \(d=3,7\). Put \(D=(\Q_\ell/\Z_\ell)(-e)\). Let \(S_e\subset H^1(\Q,D)\) consist of classes trivial on every finite inertia group and on decomposition groups at \(2,\ell\).
+
+\textit{Selmer comparison.} At level~2 with trivial character and coefficients \(\Z_\ell\), \href{\scl/ClassNumberThree.lean\#L13-L30}{\texttt{vlen\_one}} identifies \texttt{Vlen} with the length for the twist \(-e\) over \(\Q\). By \href{\scl/LenEqZeroIff.lean\#L17-L33}{\texttt{len\_eq\_zero\_iff}}, this length is zero exactly when every cocycle that is a coboundary on those local subgroups is a global coboundary. Thus \(\texttt{Vlen}=0\iff S_e=0\) for either auxiliary field. If \(K_{2e}(\Z)/\ell\ne0\), the cyclotomic comparison~\cite{jkpsz} gives an unramified quotient onto \(D[\ell]\) over \(\Q(\zeta_\ell)\). The prime above \(\ell\) is principal, so splits in the quotient. Descent through the prime-to-\(\ell\) degree preserves local triviality, and \(D^{G_\Q}=0\) since \(0<e<\ell-1\), so the class stays nonzero in \(H^1(\Q,D)\). At 2 the unramified group is \(D/(2^{-e}-1)D=0\) by divisibility. This gives \(S_e\ne0\).
 
 \textit{One coefficient prime.} The hypotheses \texttt{GD} hold in both fields. Their class numbers are one, \(d\) is prime to \(2\ell\), and ramification at \(d\) gives \(E_d\not\subset\Q(\zeta_\ell)\). The character is trivial, \(e\) is even, \(0<2e<\ell-1\), and the coefficient ramification index is one. In \cite[K17-S17-JOINT]{ktower}, positive length forces an actual deformation point. Otherwise the model-length bound at the identity has an empty covering set, forcing \texttt{Vlen} to vanish. The integral representation of this point reduces at one coefficient prime on all of \(G_{E_d}\) to
 \[
@@ -80,7 +82,7 @@ Modulus size (bits) & 368 & 419 & 426 & 475 & 489 & 515 & 527 & 602\\
 \(\gcd(\det W_e,M_e)\) & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\\bottomrule
 \end{tabular}
 \end{center}
-The \href{https://github.com/leopintar05/hecke-k-theory-104/blob/v3/paper/coverage.md}{detailed proof} and \href{https://github.com/leopintar05/hecke-k-theory-104/releases/tag/v3}{certificates and verifiers} give the degree-by-degree checks, exact residues and matrix generators.
+The \href{https://github.com/leopintar05/hecke-k-theory-104/blob/v4/paper/coverage.md}{detailed proof} and \href{https://github.com/leopintar05/hecke-k-theory-104/releases/tag/v4}{certificates and verifiers} give the degree-by-degree checks, exact residues and matrix generators.
 
 {\small\textit{Contributions.} Leo Pintar initiated and led this investigation into the \(K\)-theoretic consequences of Alpöge’s Step 17. OpenAI Codex contributed to the mathematical arguments, wrote and ran the verification code, and drafted the manuscript.}
 

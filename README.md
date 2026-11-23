@@ -1,8 +1,8 @@
-# Hecke calculations for the conditional vanishing of integer K-groups through degree 104
+# Vanishing of integer K-groups through degree 104 from Alpöge’s Step 17
 
-Leo Pintar, École Polytechnique · Paper version 3 · 22 November 2026
+Leo Pintar, École Polytechnique · Paper version 4 · 23 November 2026
 
-We obtain $K_{4k}(\mathbb Z)=0$ for $1\le k\le26$, conditional on the strict Selmer comparison in Alpöge’s full Step 17 construction. The construction supplies one representation at one coefficient prime for all the traces tested in a field. Three Bernoulli unit tests then restrict the possible source to the compact space covered by the matrices. [Two-page paper](paper/hecke-through-104.pdf) · [Detailed proof](paper/coverage.md) · [LaTeX source](paper/main.tex)
+We obtain $K_{4k}(\mathbb Z)=0$ for $1\le k\le26$, assuming the arithmetic construction in Alpöge’s pinned Step 17. At level 2 with trivial character, the source’s zero-length criterion is exactly the vanishing of the rational strict Selmer group used here. The paper proves this comparison for both auxiliary fields. The construction supplies one representation at one coefficient prime for all the traces tested in a field. Three Bernoulli unit tests then restrict the possible source to the compact space covered by the matrices. [Two-page paper](paper/hecke-through-104.pdf) · [Detailed proof](paper/coverage.md) · [LaTeX source](paper/main.tex)
 
 In degree 104 the first field excludes every large prime outside a four-prime list using two rank-324 determinants. In the second field the rank-2,925 determinant is coprime to the product of those four primes. The verifier recomputes the Bernoulli field choices for all 26 degrees and checks the stored determinant deductions. It uses the Python standard library.
 

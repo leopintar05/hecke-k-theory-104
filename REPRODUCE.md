@@ -1,6 +1,6 @@
 # Reproducing the Hecke calculations
 
-For version 3, run `python3 check_step17_coverage.py` from the checkout. For the standalone release, download the verifier and `hecke-certificates-v1.1.zip` into one directory and run the same command. Python 3.9 or later suffices for this check. It verifies the certificate digests, recomputes the field choice for the three Bernoulli units at each exponent, and checks the stored arithmetic through degree 104.
+For version 4, run `python3 check_step17_coverage.py` from the checkout. For the standalone release, download the verifier and `hecke-certificates-v1.1.zip` into one directory and run the same command. Python 3.9 or later suffices for this check. It verifies the certificate digests, recomputes the field choice for the three Bernoulli units at each exponent, and checks the stored arithmetic through degree 104.
 
 For the earlier, independent degree-104 self-dual case in the first field, run `python3 check_adjoint104.py`. The verifier uses only the Python standard library. It builds the full 16-dimensional weight-53 cusp space from Fourier expansions, computes the trace tests at 2 and 7, and checks the complete factorization of the gcd of their determinants.
 
